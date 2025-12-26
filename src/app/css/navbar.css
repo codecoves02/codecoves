@@ -1,0 +1,46 @@
+/* Common tech icon styling */
+.tech-icon {
+  position: absolute;
+  width: 70px;
+  opacity: 0.08;
+  animation: float 12s ease-in-out infinite;
+}
+
+@media (max-width: 768px) {
+  .tech-icon {
+    width: 40px;
+    opacity: 0.05;
+  }
+}
+
+/* Floating animation (stay inside section) */
+@keyframes float {
+  0% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(15px, -20px);
+  }
+  50% {
+    transform: translate(-10px, 15px);
+  }
+  75% {
+    transform: translate(10px, 5px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+/* Different speeds for natural feel */
+.float-slow {
+  animation-duration: 18s;
+}
+
+.float-medium {
+  animation-duration: 14s;
+}
+
+.float-fast {
+  animation-duration: 10s;
+}
