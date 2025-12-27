@@ -58,7 +58,7 @@ export default function Navbar() {
                             {/* Desktop Menu */}
                             <div className="hidden md:flex items-center space-x-10">
                                 <a className="text-teal-500 font-semibold border-b-2 border-teal-500 pb-1" href="#">HOME</a>
-                                <a className="text-gray-800 hover:text-teal-500 font-medium" href="#">Aqdas</a>
+                                <a className="text-gray-800 hover:text-teal-500 font-medium" href="#">ABOUT</a>
 
                                 {/* MEGA MENU */}
                                 <div className="relative group">
