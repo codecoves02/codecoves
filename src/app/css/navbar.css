@@ -1,4 +1,4 @@
-/* Common tech icon styling */
+/* ================= TECH ICONS ================= */
 .tech-icon {
   position: absolute;
   width: 70px;
@@ -13,34 +13,76 @@
   }
 }
 
-/* Floating animation (stay inside section) */
 @keyframes float {
+  0% { transform: translate(0,0); }
+  25% { transform: translate(15px,-20px); }
+  50% { transform: translate(-10px,15px); }
+  75% { transform: translate(10px,5px); }
+  100% { transform: translate(0,0); }
+}
+
+.float-slow { animation-duration: 18s; }
+.float-medium { animation-duration: 14s; }
+.float-fast { animation-duration: 10s; }
+
+/* ================= HERO SMOKE ANIMATION (LETTERS) ================= */
+.hero-heading .smoke-letter,
+.hero-desc .smoke-letter {
+  display: inline-block;
+  opacity: 0;
+  transform: translateX(-20px) translateY(0) rotate(0deg);
+  animation: smokeIn 1s forwards;
+}
+
+.hero-heading.fade-out .smoke-letter,
+.hero-desc.fade-out .smoke-letter {
+  animation: smokeOut 0.8s forwards;
+}
+
+@keyframes smokeIn {
   0% {
-    transform: translate(0, 0);
-  }
-  25% {
-    transform: translate(15px, -20px);
-  }
-  50% {
-    transform: translate(-10px, 15px);
-  }
-  75% {
-    transform: translate(10px, 5px);
+    opacity: 0;
+    transform: translateX(-20px) translateY(10px) rotate(-10deg);
+    filter: blur(8px);
   }
   100% {
-    transform: translate(0, 0);
+    opacity: 1;
+    transform: translateX(0) translateY(0) rotate(0deg);
+    filter: blur(0);
   }
 }
 
-/* Different speeds for natural feel */
-.float-slow {
-  animation-duration: 18s;
+@keyframes smokeOut {
+  0% {
+    opacity: 1;
+    transform: translateX(0) translateY(0) rotate(0deg);
+    filter: blur(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(20px) translateY(-10px) rotate(10deg);
+    filter: blur(8px);
+  }
 }
 
-.float-medium {
-  animation-duration: 14s;
+/* ================= HERO SMOKE ANIMATION (IMAGE) ================= */
+.hero-image img {
+  opacity: 0;
+  transform: translateY(20px);
+  filter: blur(8px);
+  animation: smokeImageIn 1s forwards;
 }
 
-.float-fast {
-  animation-duration: 10s;
+.hero-image.fade-out img {
+  animation: smokeImageOut 0.8s forwards;
+}
+
+@keyframes smokeImageIn {
+  0% { opacity: 0; transform: translateY(20px); filter: blur(8px); }
+  100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+
+@keyframes smokeImageOut {
+  0% { opacity: 1; transform: translateY(0); filter: blur(0); }
+  100% { opacity: 0; transform: translateY(-20px); filter: blur(8px); }
 }
