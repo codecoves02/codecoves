@@ -1,0 +1,168 @@
+/* --- Section Styles --- */
+.how {
+  position: relative;
+  padding: 20px 160px;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.how-title {
+  text-align: center;
+  font-size: 42px;
+  font-weight: bold;
+  color: #1a3a6d; /* dark blue */
+  margin-bottom: 20px;
+}
+
+/* --- HEARTBEAT DRAW WAVE --- */
+.heartbeat-wave {
+  position: absolute;
+  top: 100px;
+  left: 0;
+  width: 100%;
+  height: 200px;
+  z-index: 1;
+}
+
+.heartbeat-path {
+  stroke-dasharray: 1400;
+  stroke-dashoffset: 1400;
+  stroke: #4da6ff; /* light blue */
+  stroke-width: 6;
+  stroke-linecap: round;
+  animation: drawWave 3.5s linear infinite;
+}
+
+@keyframes drawWave {
+  0% { stroke-dashoffset: 1400; opacity: 1; }
+  85% { stroke-dashoffset: 0; opacity: 1; }
+  100% { stroke-dashoffset: 0; opacity: 0; }
+}
+
+/* --- CARDS CONTAINER --- */
+.how-boxes {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 28px;
+  position: relative;
+  z-index: 2;
+  perspective: 1500px;
+}
+
+/* --- CARDS --- */
+.how-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 30px 25px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+  border: 2px solid #4da6ff; /* light blue border */
+  cursor: pointer;
+  transition: all 0.5s ease;
+  transform-style: preserve-3d;
+  overflow: hidden;
+}
+
+/* Glow effect on hover */
+.how-box::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  border-radius: 20px;
+  box-shadow: 0 0 30px rgba(77, 166, 255, 0.4); /* light blue glow */
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  z-index: -1;
+}
+
+/* Hover Effects */
+.how-box:hover {
+  transform: rotateX(6deg) rotateY(6deg) translateY(-8px);
+  border-color: #1a3a6d; /* dark blue on hover */
+}
+
+.how-box:hover::after {
+  opacity: 1;
+}
+
+/* --- ICON --- */
+.icon-wrapper {
+  font-size: 48px;
+  color: #4da6ff;
+  margin-bottom: 20px;
+  animation: pulse 2s infinite;
+}
+
+.how-box:hover .icon-wrapper {
+  color: #1a3a6d;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+/* --- STEP NUMBER --- */
+.step-number {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a3a6d;
+  background: #e6f2ff;
+  padding: 6px 14px;
+  border-radius: 20px;
+  margin-bottom: 14px;
+  transition: all 0.3s ease;
+}
+
+.how-box:hover .step-number {
+  background: #4da6ff;
+  color: #fff;
+}
+
+/* --- CARD TITLE --- */
+.how-box h4 {
+  font-size: 20px;
+  color: #1a3a6d;
+  margin-bottom: 10px;
+  text-align: center;
+  transition: transform 0.4s ease;
+}
+
+.how-box:hover h4 {
+  transform: translateY(-3px);
+}
+
+/* --- CARD DESCRIPTION --- */
+.how-box p {
+  font-size: 14px;
+  color: #555;
+  text-align: center;
+  line-height: 1.6;
+  transition: transform 0.4s ease, color 0.4s ease;
+}
+
+.how-box:hover p {
+  transform: translateY(-2px);
+  color: #1a3a6d;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 1000px) {
+  .how-boxes {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .how-boxes {
+    grid-template-columns: 1fr;
+  }
+
+  .heartbeat-wave {
+    display: none;
+  }
+}
+

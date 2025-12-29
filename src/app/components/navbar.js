@@ -127,7 +127,7 @@ export default function Navbar() {
                 {/* HERO CONTENT */}
                 <div className={`relative hero-main flex flex-col justify-center items-center text-center min-h-screen px-4`}>
                     {/* Heading */}
-                    <h1 className={`text-4xl md:text-5xl font-bold text-gray-800 mb-6 hero-heading ${animate ? 'fade-in' : 'fade-out'}`}>
+                    <h1 className={`text-4xl md:text-5xl font-bold text-[#1a3a6d] mb-6 hero-heading ${animate ? 'fade-in' : 'fade-out'}`}>
                         {displayText.title.split(" ").map((word, wIndex) => (
                             <span key={wIndex} style={{ marginRight: '0.5em' }}>
                                 {word.split("").map((char, i) => (
