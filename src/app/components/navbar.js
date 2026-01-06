@@ -1,166 +1,229 @@
 'use client';
 
-import { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import '../css/navbar.css';
+import { Menu, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
-export default function Navbar() {
-    const heroTexts = [
-        {
-            title: "We Build Modern Software",
-            desc: "A professional software house delivering modern websites, scalable applications, and high-performance digital solutions.",
-            image: "/img/software-house-img1.svg"
-        },
-        {
-            title: "We Create Digital Experiences",
-            desc: "Designing fast, secure and user-focused applications for growing businesses.",
-            image: "/img/software-house-img1.svg"
-        },
-        {
-            title: "Your Vision, Our Code",
-            desc: "Turning ideas into powerful digital products using modern technologies.",
-            image: "/img/software-house-img1.svg"
-        }
+const Navbar = () => {
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [showText, setShowText] = useState(true);
+
+    const navLinks = [
+        { name: "Home", href: "#" },
+        { name: "About", href: "#about" },
+        { name: "Services", href: "#services", hasDropdown: true },
+        { name: "Portfolio", href: "#portfolio" },
+        { name: "Contact", href: "#contact" },
     ];
 
-    const [index, setIndex] = useState(0);
-    const [animate, setAnimate] = useState(true);
-    const [displayText, setDisplayText] = useState(heroTexts[0]);
-    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const heroData = [
+        {
+            main: "Leading Innovative",
+            sub: "Software Solutions",
+            para: "We craft cutting-edge web applications, mobile experiences, and AI-powered solutions that drive growth, efficiency, and digital transformation for businesses worldwide.",
+        },
+        {
+            main: "Creative Digital Solutions",
+            sub: "Web & Mobile Apps",
+            para: "Our team delivers creative software, mobile apps, and AI solutions that empower businesses to innovate and grow faster.",
+        },
+        {
+            main: "Transforming Businesses Globally",
+            sub: "AI-Powered Platforms",
+            para: "We design and develop digital solutions that streamline processes, boost efficiency, and help companies achieve their goals.",
+        },
+    ];
 
+    // Letter animation variants
+    const letterVariants = {
+        initial: { opacity: 0, x: -50, y: 20, filter: "blur(4px)" },
+        animate: { opacity: 1, x: 0, y: 0, filter: "blur(0px)", transition: { duration: 0.5, ease: "easeOut" } },
+        exit: { opacity: 0, x: 50, y: -20, filter: "blur(6px)", transition: { duration: 0.8, ease: "easeIn" } },
+    };
+
+    const container = { animate: { transition: { staggerChildren: 0.05 } } };
+
+    // Auto-change text
     useEffect(() => {
-        const interval = setInterval(() => {
-            setAnimate(false);
-            setTimeout(() => {
-                const nextIndex = (index + 1) % heroTexts.length;
-                setIndex(nextIndex);
-                setDisplayText(heroTexts[nextIndex]);
-                setAnimate(true);
-            }, 800);
-        }, 4000);
+        if (!showText) return;
 
-        return () => clearInterval(interval);
-    }, [index]);
+        const totalLetters =
+            heroData[currentIndex].main.length +
+            heroData[currentIndex].sub.length +
+            heroData[currentIndex].para.length;
+
+        const duration = totalLetters * 50 + 2000;
+
+        const timer = setTimeout(() => {
+            setShowText(false);
+            setTimeout(() => {
+                setCurrentIndex((prev) => (prev + 1) % heroData.length);
+                setShowText(true);
+            }, 1000);
+        }, duration);
+
+        return () => clearTimeout(timer);
+    }, [currentIndex, showText]);
 
     return (
-        <>
-            <section className="relative overflow-hidden bg-gradient-to-br from-gray-50 to-white min-h-screen">
+        <header className="relative w-full h-screen flex flex-col">
+            {/* Navbar */}
+            <nav className="flex items-center justify-between px-6 sm:px-12 py-6 bg-black/50 backdrop-blur-xl fixed w-full z-50 border-b border-white/10">
+                <div className="text-white font-bold text-2xl tracking-tight">Innovatio</div>
+                <ul className="hidden lg:flex items-center space-x-10 text-white font-medium">
+                    {navLinks.map((link) => (
+                        <li key={link.name} className="relative"
+                            onMouseEnter={() => link.hasDropdown && setDropdownOpen(true)}
+                            onMouseLeave={() => link.hasDropdown && setDropdownOpen(false)}
+                        >
+                            <a href={link.href} className="hover:text-purple-400 transition duration-300">{link.name}</a>
+                            {link.hasDropdown && dropdownOpen && (
+                                <ul className="absolute top-10 left-0 bg-black/90 backdrop-blur-md border border-purple-500/30 text-white rounded-lg shadow-2xl min-w-[200px] py-3 mt-2">
+                                    <li><a href="#web-dev" className="block px-6 py-3 hover:bg-purple-600/30 transition">Web Development</a></li>
+                                    <li><a href="#mobile" className="block px-6 py-3 hover:bg-purple-600/30 transition">Mobile Apps</a></li>
+                                    <li><a href="#ui-ux" className="block px-6 py-3 hover:bg-purple-600/30 transition">UI/UX Design</a></li>
+                                    <li><a href="#ai" className="block px-6 py-3 hover:bg-purple-600/30 transition">AI & Machine Learning</a></li>
+                                </ul>
+                            )}
+                        </li>
+                    ))}
+                </ul>
+                <a href="#contact" className="hidden lg:block bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 shadow-lg hover:shadow-purple-500/25">Get Started</a>
+                <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="lg:hidden text-white z-50">
+                    {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+                </button>
+            </nav>
 
-                {/* NAVBAR */}
-                <nav className="absolute top-0 left-0 w-full z-50 bg-transparent">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="flex justify-between items-center h-16">
-                            {/* Logo */}
-                            <div>
-                                <Image src='/img/codecoves-logo2.png' width={180} height={180} alt="Logo" />
-                            </div>
+            {mobileMenuOpen && (
+                <div className="fixed inset-0 bg-black/95 backdrop-blur-xl z-40 pt-24 px-8">
+                    <ul className="space-y-6 text-center text-white text-xl font-medium">
+                        {navLinks.map((link) => (
+                            <li key={link.name}>
+                                <a href={link.href} onClick={() => setMobileMenuOpen(false)} className="block py-3 hover:text-purple-400 transition">{link.name}</a>
+                            </li>
+                        ))}
+                        <li>
+                            <a href="#contact" onClick={() => setMobileMenuOpen(false)} className="inline-block mt-8 bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 text-white px-10 py-4 rounded-full font-bold transition-all">Get Started</a>
+                        </li>
+                    </ul>
+                </div>
+            )}
 
-                            {/* Desktop Menu */}
-                            <div className="hidden md:flex items-center space-x-10">
-                                <a className="text-teal-500 font-semibold border-b-2 border-teal-500 pb-1" href="#">HOME</a>
-                                <a className="text-gray-800 hover:text-teal-500 font-medium" href="#">ABOUT</a>
+            {/* Hero Section */}
+            <section className="relative w-full h-screen flex items-center justify-start">
+                <Image
+                    src="/img/first-section-bg-img.jpg"
+                    alt="Innovative digital waves"
+                    fill
+                    className="object-cover"
+                    priority
+                />
 
-                                {/* MEGA MENU */}
-                                <div className="relative group">
-                                    <span className="text-gray-800 hover:text-teal-500 font-medium cursor-pointer">SERVICES</span>
-                                    <div className="absolute top-full mt-4 left-1/2 -translate-x-1/2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 w-[95vw] max-w-[1200px] px-4">
-                                        <div className="bg-white shadow-xl rounded-lg p-6 md:p-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                                            <div>
-                                                <h3 className="font-bold text-gray-800 mb-4">Development</h3>
-                                                <ul className="space-y-2">
-                                                    <li className="text-gray-600 hover:text-teal-500">Web Development</li>
-                                                    <li className="text-gray-600 hover:text-teal-500">Next.js Apps</li>
-                                                    <li className="text-gray-600 hover:text-teal-500">React Projects</li>
-                                                </ul>
-                                            </div>
-                                            <div>
-                                                <h3 className="font-bold text-gray-800 mb-4">Design</h3>
-                                                <ul className="space-y-2">
-                                                    <li className="text-gray-600 hover:text-teal-500">UI / UX Design</li>
-                                                    <li className="text-gray-600 hover:text-teal-500">Brand Identity</li>
-                                                    <li className="text-gray-600 hover:text-teal-500">Landing Pages</li>
-                                                </ul>
-                                            </div>
-                                            <div>
-                                                <h3 className="font-bold text-gray-800 mb-4">Marketing</h3>
-                                                <ul className="space-y-2">
-                                                    <li className="text-gray-600 hover:text-teal-500">SEO</li>
-                                                    <li className="text-gray-600 hover:text-teal-500">Digital Marketing</li>
-                                                    <li className="text-gray-600 hover:text-teal-500">Ads Campaigns</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent" />
 
-                                <a className="text-gray-800 hover:text-teal-500 font-medium" href="#">CONTACT</a>
-                            </div>
+                <div className="relative z-10 ml-6 sm:ml-12 lg:ml-20 max-w-4xl text-left">
 
-                            {/* Mobile Button */}
-                            <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden text-2xl">
-                                ☰
-                            </button>
-                        </div>
+                    {/* TEXT WRAPPER — FIXED HEIGHT */}
+                    <div className="min-h-[320px] sm:min-h-[360px] lg:min-h-[420px]">
+
+                        {/* Main Heading */}
+                        <AnimatePresence mode="wait">
+                            {showText && (
+                                <motion.h1
+                                    key={`main-${currentIndex}`}
+                                    variants={container}
+                                    initial="initial"
+                                    animate="animate"
+                                    exit="exit"
+                                    className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-tight mb-2"
+                                >
+                                    {heroData[currentIndex].main.split("").map((char, i) => (
+                                        <motion.span
+                                            key={`main-char-${i}`}
+                                            variants={letterVariants}
+                                            className="inline-block"
+                                        >
+                                            {char === " " ? "\u00A0" : char}
+                                        </motion.span>
+                                    ))}
+                                </motion.h1>
+                            )}
+                        </AnimatePresence>
+
+                        {/* Subheading */}
+                        <AnimatePresence mode="wait">
+                            {showText && (
+                                <motion.h2
+                                    key={`sub-${currentIndex}`}
+                                    variants={container}
+                                    initial="initial"
+                                    animate="animate"
+                                    exit="exit"
+                                    className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6"
+                                >
+                                    {heroData[currentIndex].sub.split("").map((char, i) => (
+                                        <motion.span
+                                            key={`sub-char-${i}`}
+                                            variants={letterVariants}
+                                            className="inline-block bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent"
+                                        >
+                                            {char === " " ? "\u00A0" : char}
+                                        </motion.span>
+                                    ))}
+                                </motion.h2>
+                            )}
+                        </AnimatePresence>
+
+                        {/* Paragraph */}
+                        <AnimatePresence mode="wait">
+                            {showText && (
+                                <motion.p
+                                    key={`para-${currentIndex}`}
+                                    variants={container}
+                                    initial="initial"
+                                    animate="animate"
+                                    exit="exit"
+                                    className="text-lg sm:text-xl lg:text-2xl text-gray-200 mb-10 max-w-2xl leading-relaxed"
+                                >
+                                    {heroData[currentIndex].para.split("").map((char, i) => (
+                                        <motion.span
+                                            key={`para-char-${i}`}
+                                            variants={letterVariants}
+                                            className="inline-block"
+                                        >
+                                            {char === " " ? "\u00A0" : char}
+                                        </motion.span>
+                                    ))}
+                                </motion.p>
+                            )}
+                        </AnimatePresence>
+
                     </div>
 
-                    {/* Mobile Menu */}
-                    {mobileMenuOpen && (
-                        <div className="md:hidden bg-white shadow px-4 py-6 space-y-4">
-                            <a className="block text-teal-500 font-semibold" href="#">HOME</a>
-                            <a className="block text-gray-700" href="#">ABOUT</a>
-                            <a className="block text-gray-700" href="#">SERVICES</a>
-                            <a className="block text-gray-700" href="#">CONTACT</a>
-                        </div>
-                    )}
-                </nav>
+                    {/* BUTTONS — STATIC (NO JUMP) */}
+                    <div className="flex flex-col sm:flex-row gap-6">
+                        <a
+                            href="#services"
+                            className="inline-block bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 text-white px-10 py-5 rounded-full font-bold text-lg transition-all duration-300 shadow-xl hover:shadow-purple-500/40"
+                        >
+                            Explore Services
+                        </a>
 
-                {/* TECH ICON BACKGROUND */}
-                <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                    <img src="/img/html.svg" className="tech-icon top-[10%] left-[10%] float-slow" />
-                    <img src="/img/css.svg" className="tech-icon top-[40%] left-[20%] float-medium" />
-                    <img src="/img/js.svg" className="tech-icon top-[70%] left-[15%] float-fast" />
-                    <img src="/img/nextjs.svg" className="tech-icon top-[20%] right-[20%] float-medium" />
-                    <img src="/img/react.svg" className="tech-icon top-[50%] right-[15%] float-slow" />
-                    <img src="/img/code.svg" className="tech-icon top-[75%] right-[10%] float-fast" />
-                </div>
-
-                {/* HERO CONTENT */}
-                <div className={`relative hero-main flex flex-col justify-center items-center text-center min-h-screen px-4`}>
-                    {/* Heading */}
-                    <h1 className={`text-4xl md:text-5xl font-bold text-[#1a3a6d] mb-6 hero-heading ${animate ? 'fade-in' : 'fade-out'}`}>
-                        {displayText.title.split(" ").map((word, wIndex) => (
-                            <span key={wIndex} style={{ marginRight: '0.5em' }}>
-                                {word.split("").map((char, i) => (
-                                    <span key={i} className="smoke-letter" style={{ animationDelay: `${i * 0.05}s` }}>{char}</span>
-                                ))}
-                            </span>
-                        ))}
-                    </h1>
-
-                    {/* Paragraph */}
-                    <p className={`text-gray-600 max-w-2xl hero-desc ${animate ? 'fade-in' : 'fade-out'} mb-6`}>
-                        {displayText.desc.split(" ").map((word, wIndex) => (
-                            <span key={wIndex} style={{ marginRight: '0.3em' }}>
-                                {word.split("").map((char, i) => (
-                                    <span key={i} className="smoke-letter" style={{ animationDelay: `${i * 0.01}s` }}>{char}</span>
-                                ))}
-                            </span>
-                        ))}
-                    </p>
-
-                    {/* Image with smoke effect */}
-                    <div className={`mt-4 hero-image ${animate ? 'fade-in' : 'fade-out'}`}>
-                        <Image
-                            src={displayText.image}
-                            width={500}
-                            height={500}
-                            alt="Hero Image"
-                        />
+                        <a
+                            href="#contact"
+                            className="inline-block border-2 border-purple-500 text-white px-10 py-5 rounded-full font-bold text-lg hover:bg-purple-600/20 transition-all duration-300"
+                        >
+                            Contact Us
+                        </a>
                     </div>
+
                 </div>
-
-
             </section>
-        </>
+        </header>
     );
-}
+};
+
+export default Navbar;

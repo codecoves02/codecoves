@@ -1,168 +1,178 @@
-/* --- Section Styles --- */
-.how {
+.process-section {
   position: relative;
-  padding: 20px 160px;
-  background: #ffffff;
+  padding: 140px 6%;
+  background: linear-gradient(135deg, #0d0d0d, #1a0d2f);
+  /* dark purpleish gradient */
+  color: #fff;
   overflow: hidden;
 }
 
-.how-title {
+
+.process-title {
   text-align: center;
-  font-size: 42px;
-  font-weight: bold;
-  color: #1a3a6d; /* dark blue */
-  margin-bottom: 20px;
+  font-size: 48px;
+  font-weight: 800;
+  margin-bottom: 120px;
 }
 
-/* --- HEARTBEAT DRAW WAVE --- */
-.heartbeat-wave {
+.process-title span {
+  color: #b14cff;
+}
+
+.timeline {
+  position: relative;
+  max-width: 1100px;
+  margin: auto;
+}
+
+.timeline-svg {
   position: absolute;
-  top: 100px;
+  top: 0;
   left: 0;
   width: 100%;
-  height: 200px;
-  z-index: 1;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
 }
 
-.heartbeat-path {
-  stroke-dasharray: 1400;
-  stroke-dashoffset: 1400;
-  stroke: #4da6ff; /* light blue */
-  stroke-width: 6;
+.draw-line {
+  stroke: #b14cff;
+  stroke-width: 3;
   stroke-linecap: round;
-  animation: drawWave 3.5s linear infinite;
 }
 
-@keyframes drawWave {
-  0% { stroke-dashoffset: 1400; opacity: 1; }
-  85% { stroke-dashoffset: 0; opacity: 1; }
-  100% { stroke-dashoffset: 0; opacity: 0; }
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
 }
 
-/* --- CARDS CONTAINER --- */
-.how-boxes {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 28px;
+
+.timeline-item {
+  width: 50%;
+  padding: 30px 40px;
   position: relative;
-  z-index: 2;
-  perspective: 1500px;
+  margin-bottom: 80px;
 }
 
-/* --- CARDS --- */
-.how-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: #ffffff;
-  border-radius: 20px;
-  padding: 30px 25px;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
-  border: 2px solid #4da6ff; /* light blue border */
-  cursor: pointer;
-  transition: all 0.5s ease;
-  transform-style: preserve-3d;
+.timeline-item.left {
+  left: 0;
+  text-align: right;
+}
+
+.timeline-item.right {
+  left: 50%;
+  text-align: left;
+}
+
+.timeline-item .content {
+  position: relative;
+  background: rgba(255, 255, 255, 0.06);
+  /* card interior untouched */
+  padding: 36px 34px;
+  border-radius: 24px;
+  border: 3px solid transparent;
   overflow: hidden;
+  transition: transform 0.6s ease, box-shadow 0.6s ease;
 }
 
-/* Glow effect on hover */
-.how-box::after {
+/* Border gradient animation overlay */
+.timeline-item.charged .content::after {
   content: '';
   position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  border-radius: 20px;
-  box-shadow: 0 0 30px rgba(77, 166, 255, 0.4); /* light blue glow */
-  opacity: 0;
-  transition: opacity 0.5s ease;
-  z-index: -1;
+  inset: 0;
+  border-radius: 24px;
+  padding: 3px;
+  /* thickness of border */
+  background-size: 200% 100%;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  animation: moveBorder 2s linear infinite;
+  /* continuous flow */
+  pointer-events: none;
+  z-index: 2;
 }
 
-/* Hover Effects */
-.how-box:hover {
-  transform: rotateX(6deg) rotateY(6deg) translateY(-8px);
-  border-color: #1a3a6d; /* dark blue on hover */
+/* optional subtle glow */
+.timeline-item.charged .content {
+  box-shadow: 0 0 20px rgba(177, 76, 255, 0.4);
 }
 
-.how-box:hover::after {
-  opacity: 1;
+@keyframes moveBorder {
+  0% {
+    background-position: 0% 0%;
+  }
+
+  100% {
+    background-position: 200% 0%;
+  }
 }
 
-/* --- ICON --- */
-.icon-wrapper {
-  font-size: 48px;
-  color: #4da6ff;
-  margin-bottom: 20px;
-  animation: pulse 2s infinite;
+
+.timeline-item:nth-child(even) .content {
+  animation-delay: 1.5s;
 }
 
-.how-box:hover .icon-wrapper {
-  color: #1a3a6d;
+@keyframes floatCard {
+  0% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-14px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
 }
 
-@keyframes pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.2); }
-}
+/* .timeline-item .content:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 45px rgba(177, 76, 255, 0.45);
+} */
 
-/* --- STEP NUMBER --- */
-.step-number {
+.step {
   display: inline-block;
   font-size: 14px;
-  font-weight: 700;
-  color: #1a3a6d;
-  background: #e6f2ff;
-  padding: 6px 14px;
-  border-radius: 20px;
   margin-bottom: 14px;
-  transition: all 0.3s ease;
+  padding: 6px 16px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #b14cff, #6a00ff);
+  box-shadow: 0 0 25px rgba(177, 76, 255, 0.7);
+  font-weight: 600;
 }
 
-.how-box:hover .step-number {
-  background: #4da6ff;
-  color: #fff;
+.timeline-item h3 {
+  font-size: 22px;
+  margin-bottom: 12px;
+  color: #e6c1ff;
 }
 
-/* --- CARD TITLE --- */
-.how-box h4 {
-  font-size: 20px;
-  color: #1a3a6d;
-  margin-bottom: 10px;
-  text-align: center;
-  transition: transform 0.4s ease;
+.timeline-item p {
+  font-size: 15px;
+  line-height: 1.7;
+  color: #cfcfcf;
 }
 
-.how-box:hover h4 {
-  transform: translateY(-3px);
-}
-
-/* --- CARD DESCRIPTION --- */
-.how-box p {
-  font-size: 14px;
-  color: #555;
-  text-align: center;
-  line-height: 1.6;
-  transition: transform 0.4s ease, color 0.4s ease;
-}
-
-.how-box:hover p {
-  transform: translateY(-2px);
-  color: #1a3a6d;
-}
-
-/* --- RESPONSIVE --- */
-@media (max-width: 1000px) {
-  .how-boxes {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 600px) {
-  .how-boxes {
-    grid-template-columns: 1fr;
+@media (max-width: 900px) {
+  .timeline-item {
+    width: 100%;
+    padding-left: 60px;
+    padding-right: 0;
+    text-align: left !important;
+    left: 0 !important;
+    margin-bottom: 60px;
   }
 
-  .heartbeat-wave {
-    display: none;
+  .step {
+    font-size: 13px;
+    padding: 5px 12px;
   }
 }
-
