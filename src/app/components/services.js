@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useEffect, useRef } from 'react';
 import '../css/services.css';
 import {
@@ -8,7 +9,8 @@ import {
   Palette,
   Brain,
   Cloud,
-  Headphones
+  Headphones,
+  ArrowRight
 } from 'lucide-react';
 
 const services = [
@@ -108,6 +110,12 @@ export default function Services() {
             <p>{service.desc}</p>
           </div>
         ))}
+      </div>
+
+      <div className="services-btn-wrap">
+        <Link href="/pages/services-page" className="services-see-more">
+          See All Services <ArrowRight size={18} />
+        </Link>
       </div>
     </section>
   );

@@ -3,6 +3,64 @@
 import { useEffect, useRef, useState } from 'react';
 import '../css/how-it-work.css';
 
+/* ── Background particle canvas ── */
+function ParticleBg() {
+  const canvasRef = useRef(null);
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+    let w, h, particles, raf;
+
+    const init = () => {
+      w = canvas.width  = canvas.offsetWidth;
+      h = canvas.height = canvas.offsetHeight;
+      particles = Array.from({ length: 60 }, () => ({
+        x: Math.random() * w, y: Math.random() * h,
+        vx: (Math.random() - 0.5) * 0.35,
+        vy: (Math.random() - 0.5) * 0.35,
+        r: Math.random() * 1.5 + 0.5,
+      }));
+    };
+
+    const draw = () => {
+      ctx.clearRect(0, 0, w, h);
+      particles.forEach(p => {
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < 0 || p.x > w) p.vx *= -1;
+        if (p.y < 0 || p.y > h) p.vy *= -1;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(177,76,255,0.7)';
+        ctx.fill();
+      });
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const d  = Math.sqrt(dx * dx + dy * dy);
+          if (d < 120) {
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.strokeStyle = `rgba(177,76,255,${0.18 * (1 - d / 120)})`;
+            ctx.lineWidth = 0.8;
+            ctx.stroke();
+          }
+        }
+      }
+      raf = requestAnimationFrame(draw);
+    };
+
+    init();
+    draw();
+    const ro = new ResizeObserver(init);
+    ro.observe(canvas);
+    return () => { cancelAnimationFrame(raf); ro.disconnect(); };
+  }, []);
+
+  return <canvas ref={canvasRef} className="hiw-particle-canvas" />;
+}
+
 const steps = [
   { step: '01', title: 'Requirement Analysis', desc: 'We deeply understand your business goals and challenges.' },
   { step: '02', title: 'Planning & Strategy', desc: 'We design scalable and efficient technical solutions.' },
@@ -17,14 +75,29 @@ export default function HowItWorks() {
   const [drawnSegments, setDrawnSegments] = useState([]);
   const [chargedCards, setChargedCards] = useState([]);
   const [roundKey, setRoundKey] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth <= 900);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
+
+  useEffect(() => {
+    // on mobile skip SVG lines — CSS handles vertical layout
+    if (isMobile) {
+      setLines([]);
+      setDrawnSegments([]);
+      setChargedCards(steps.map(() => true)); // all cards charged immediately
+      return;
+    }
+
     const items = Array.from(timelineRef.current.querySelectorAll('.timeline-item'));
     const parentRect = timelineRef.current.getBoundingClientRect();
 
     const extraHorizontal = 300;
     const extraVertical = 20;
-
     const newLines = [];
 
     items.forEach((item, index) => {
@@ -49,69 +122,70 @@ export default function HowItWorks() {
 
       newLines.push({
         segments: [
-          { x1: xStart, y1: yStart, x2: xTurn, y2: yStart }, // horizontal
-          { x1: xTurn, y1: yStart, x2: xTurn, y2: yEnd },     // vertical
+          { x1: xStart, y1: yStart, x2: xTurn, y2: yStart },
+          { x1: xTurn, y1: yStart, x2: xTurn, y2: yEnd },
         ]
       });
     });
 
     setLines(newLines);
-
     const totalSegments = newLines.reduce((acc, l) => acc + l.segments.length, 0);
     setDrawnSegments(Array(totalSegments).fill(false));
-    setChargedCards(Array(steps.length).fill(false)); // reset charged cards
-  }, [roundKey]);
+    setChargedCards([true, ...Array(steps.length - 1).fill(false)]);
+  }, [roundKey, isMobile]);
+
 
   // sequential animation with card charging
-useEffect(() => {
-  if (!lines.length) return;
+  useEffect(() => {
+    if (!lines.length || isMobile) return;
 
-  let currentCard = 0;
-  let currentSeg = 0;
+    let currentCard = 0;
+    let currentSeg = 0;
 
-  const animateNext = () => {
-    const flatIndex = currentCard * 2 + currentSeg;
-    if (flatIndex >= drawnSegments.length) {
-      setTimeout(() => setRoundKey(prev => prev + 1), 1000); // loop restart
-      return;
-    }
-
-    // draw current segment
-    setDrawnSegments(prev => {
-      const newArr = [...prev];
-      newArr[flatIndex] = true;
-      return newArr;
-    });
-
-    // **charge the current card when vertical segment completes**
-    if (currentSeg === 1) {
-      setTimeout(() => {
-        setChargedCards(prev => {
-          const newArr = [...prev];
-          newArr[currentCard] = true; // charge the **current card**
-          return newArr;
-        });
-      }, 1500); // match segment animation duration
-    }
-
-    // move to next segment after current segment duration
-    setTimeout(() => {
-      if (currentSeg === 0) {
-        currentSeg = 1;
-      } else {
-        currentSeg = 0;
-        currentCard++;
+    const animateNext = () => {
+      const flatIndex = currentCard * 2 + currentSeg;
+      if (flatIndex >= drawnSegments.length) {
+        setTimeout(() => setRoundKey(prev => prev + 1), 1000); // loop restart
+        return;
       }
-      animateNext();
-    }, 1500);
-  };
 
-  animateNext();
-}, [lines, roundKey]);
+      // draw current segment
+      setDrawnSegments(prev => {
+        const newArr = [...prev];
+        newArr[flatIndex] = true;
+        return newArr;
+      });
+
+      // **charge the current card when vertical segment completes**
+      if (currentSeg === 1) {
+        setTimeout(() => {
+          setChargedCards(prev => {
+            const newArr = [...prev];
+            newArr[currentCard] = true; // charge the **current card**
+            return newArr;
+          });
+        }, 1500); // match segment animation duration
+      }
+
+      // move to next segment after current segment duration
+      setTimeout(() => {
+        if (currentSeg === 0) {
+          currentSeg = 1;
+        } else {
+          currentSeg = 0;
+          currentCard++;
+        }
+        animateNext();
+      }, 1500);
+    };
+
+    animateNext();
+  }, [lines, roundKey]);
 
 
   return (
     <section className="process-section">
+      <ParticleBg />
       <h2 className="process-title">
         How <span>It Works</span>
       </h2>

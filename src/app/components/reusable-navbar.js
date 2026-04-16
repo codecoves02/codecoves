@@ -1,0 +1,103 @@
+'use client';
+
+import Image from "next/image";
+import { useState } from "react";
+import Link from "next/link";
+import { Menu, X } from "lucide-react";
+
+const navLinks = [
+  { name: "Home",      href: "/"          },
+  { name: "About",     href: "/#about"    },
+  { name: "Services",  href: "/services", hasDropdown: true },
+  { name: "Portfolio", href: "/#portfolio"},
+  { name: "Contact",   href: "/#contact"  },
+];
+
+const dropdownItems = [
+  { label: "Web Development", href: "/services#web-development" },
+  { label: "Mobile Apps",     href: "/services#mobile-apps"     },
+  { label: "UI/UX Design",    href: "/services#ui-ux-design"    },
+  { label: "AI Solutions",    href: "/services#ai-solutions"    },
+];
+
+export default function ReusableNavbar() {
+  const [mobileOpen,   setMobileOpen]   = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  return (
+    <>
+      <nav className="flex items-center justify-between px-6 sm:px-12 py-5 bg-black/60 backdrop-blur-xl fixed top-0 left-0 w-full z-50 border-b border-white/10">
+
+        {/* Logo */}
+        <Link href="/" className="flex items-center gap-3">
+          <Image
+            src="/img/codecoves-logo.png"
+            alt="CodeCoves"
+            width={52}
+            height={52}
+            style={{ filter: 'brightness(0) invert(1) sepia(1) saturate(3) hue-rotate(240deg)', objectFit: 'contain', width: '52px', height: '52px' }}
+          />
+          <span className="text-white font-bold text-2xl tracking-tight">
+            Code<span className="bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent">Coves</span>
+          </span>
+        </Link>
+
+        {/* Desktop links */}
+        <ul className="hidden lg:flex items-center space-x-10 text-white font-medium">
+          {navLinks.map((link) => (
+            <li key={link.name} className="relative"
+              onMouseEnter={() => link.hasDropdown && setDropdownOpen(true)}
+              onMouseLeave={() => link.hasDropdown && setDropdownOpen(false)}
+            >
+              <Link href={link.href} className="hover:text-purple-400 transition duration-300">
+                {link.name}
+              </Link>
+
+              {link.hasDropdown && dropdownOpen && (
+                <ul className="absolute top-10 left-0 bg-black/90 backdrop-blur-md border border-purple-500/30 text-white rounded-lg shadow-2xl min-w-[200px] py-3 mt-2">
+                  {dropdownItems.map((d) => (
+                    <li key={d.label}>
+                      <Link href={d.href} className="block px-6 py-3 hover:bg-purple-600/30 transition">
+                        {d.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          ))}
+        </ul>
+
+        {/* CTA */}
+        <Link href="/#contact" className="hidden lg:block bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 shadow-lg hover:shadow-purple-500/25">
+          Get Started
+        </Link>
+
+        {/* Mobile toggle */}
+        <button onClick={() => setMobileOpen(!mobileOpen)} className="lg:hidden text-white z-50" aria-label="Toggle menu">
+          {mobileOpen ? <X size={28} /> : <Menu size={28} />}
+        </button>
+      </nav>
+
+      {/* Mobile menu */}
+      {mobileOpen && (
+        <div className="fixed inset-0 bg-black/95 backdrop-blur-xl z-40 pt-24 px-8">
+          <ul className="space-y-6 text-center text-white text-xl font-medium">
+            {navLinks.map((link) => (
+              <li key={link.name}>
+                <Link href={link.href} onClick={() => setMobileOpen(false)} className="block py-3 hover:text-purple-400 transition">
+                  {link.name}
+                </Link>
+              </li>
+            ))}
+            <li>
+              <Link href="/#contact" onClick={() => setMobileOpen(false)} className="inline-block mt-8 bg-gradient-to-r from-purple-600 to-purple-800 text-white px-10 py-4 rounded-full font-bold transition-all">
+                Get Started
+              </Link>
+            </li>
+          </ul>
+        </div>
+      )}
+    </>
+  );
+}

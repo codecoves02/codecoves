@@ -4,6 +4,8 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
+import '../css/navbar2.css'
 
 const Navbar = () => {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -72,7 +74,19 @@ const Navbar = () => {
         <header className="relative w-full h-screen flex flex-col">
             {/* Navbar */}
             <nav className="flex items-center justify-between px-6 sm:px-12 py-6 bg-black/50 backdrop-blur-xl fixed w-full z-50 border-b border-white/10">
-                <div className="text-white font-bold text-2xl tracking-tight">Innovatio</div>
+                <Link href="/" className="flex items-center gap-3">
+                  <Image
+                    src="/img/cc-logo-new.png"
+                    alt="CodeCoves"
+                    width={100}
+                    height={100}
+                    className="cc-logo"
+                    // style={{ filter: 'brightness(0) invert(1) sepia(1) saturate(3) hue-rotate(240deg)', objectFit: 'contain', width: '52px', height: '52px' }}
+                  />
+                  <span className="text-white font-bold text-2xl tracking-tight">
+                    Code<span className="bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent">Coves</span>
+                  </span>
+                </Link>
                 <ul className="hidden lg:flex items-center space-x-10 text-white font-medium">
                     {navLinks.map((link) => (
                         <li key={link.name} className="relative"
@@ -124,10 +138,10 @@ const Navbar = () => {
 
                 <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent" />
 
-                <div className="relative z-10 ml-6 sm:ml-12 lg:ml-20 max-w-4xl text-left">
+                <div className="relative z-10 ml-6 sm:ml-12 lg:ml-20 max-w-4xl text-left pr-6 sm:pr-12">
 
                     {/* TEXT WRAPPER — FIXED HEIGHT */}
-                    <div className="min-h-[320px] sm:min-h-[360px] lg:min-h-[420px]">
+                    <div className="min-h-[260px] sm:min-h-[320px] lg:min-h-[420px]">
 
                         {/* Main Heading */}
                         <AnimatePresence mode="wait">
@@ -138,14 +152,10 @@ const Navbar = () => {
                                     initial="initial"
                                     animate="animate"
                                     exit="exit"
-                                    className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-tight mb-2"
+                                    className="text-3xl sm:text-5xl lg:text-7xl font-bold text-white leading-tight mb-2"
                                 >
                                     {heroData[currentIndex].main.split("").map((char, i) => (
-                                        <motion.span
-                                            key={`main-char-${i}`}
-                                            variants={letterVariants}
-                                            className="inline-block"
-                                        >
+                                        <motion.span key={`main-char-${i}`} variants={letterVariants} className="inline-block">
                                             {char === " " ? "\u00A0" : char}
                                         </motion.span>
                                     ))}
@@ -162,14 +172,10 @@ const Navbar = () => {
                                     initial="initial"
                                     animate="animate"
                                     exit="exit"
-                                    className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6"
+                                    className="text-2xl sm:text-4xl lg:text-6xl font-bold mb-4 sm:mb-6"
                                 >
                                     {heroData[currentIndex].sub.split("").map((char, i) => (
-                                        <motion.span
-                                            key={`sub-char-${i}`}
-                                            variants={letterVariants}
-                                            className="inline-block bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent"
-                                        >
+                                        <motion.span key={`sub-char-${i}`} variants={letterVariants} className="inline-block bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent">
                                             {char === " " ? "\u00A0" : char}
                                         </motion.span>
                                     ))}
@@ -186,14 +192,10 @@ const Navbar = () => {
                                     initial="initial"
                                     animate="animate"
                                     exit="exit"
-                                    className="text-lg sm:text-xl lg:text-2xl text-gray-200 mb-10 max-w-2xl leading-relaxed"
+                                    className="text-sm sm:text-lg lg:text-2xl text-gray-200 mb-8 max-w-2xl leading-relaxed"
                                 >
                                     {heroData[currentIndex].para.split("").map((char, i) => (
-                                        <motion.span
-                                            key={`para-char-${i}`}
-                                            variants={letterVariants}
-                                            className="inline-block"
-                                        >
+                                        <motion.span key={`para-char-${i}`} variants={letterVariants} className="inline-block">
                                             {char === " " ? "\u00A0" : char}
                                         </motion.span>
                                     ))}
@@ -203,19 +205,12 @@ const Navbar = () => {
 
                     </div>
 
-                    {/* BUTTONS — STATIC (NO JUMP) */}
-                    <div className="flex flex-col sm:flex-row gap-6">
-                        <a
-                            href="#services"
-                            className="inline-block bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 text-white px-10 py-5 rounded-full font-bold text-lg transition-all duration-300 shadow-xl hover:shadow-purple-500/40"
-                        >
+                    {/* BUTTONS */}
+                    <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
+                        <a href="#services" className="inline-block bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 text-white px-8 sm:px-10 py-4 sm:py-5 rounded-full font-bold text-base sm:text-lg transition-all duration-300 shadow-xl hover:shadow-purple-500/40 text-center">
                             Explore Services
                         </a>
-
-                        <a
-                            href="#contact"
-                            className="inline-block border-2 border-purple-500 text-white px-10 py-5 rounded-full font-bold text-lg hover:bg-purple-600/20 transition-all duration-300"
-                        >
+                        <a href="#contact" className="inline-block border-2 border-purple-500 text-white px-8 sm:px-10 py-4 sm:py-5 rounded-full font-bold text-base sm:text-lg hover:bg-purple-600/20 transition-all duration-300 text-center">
                             Contact Us
                         </a>
                     </div>
