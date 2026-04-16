@@ -73,7 +73,7 @@ const Navbar = () => {
     return (
         <header className="relative w-full h-screen flex flex-col">
             {/* Navbar */}
-            <nav className="flex items-center justify-between px-6 sm:px-12 py-6 bg-black/50 backdrop-blur-xl fixed w-full z-50 border-b border-white/10">
+            <nav className="flex items-center justify-between px-6 sm:px-12 py-3 bg-black/50 backdrop-blur-xl fixed w-full z-50 border-b border-white/10">
                 <Link href="/" className="flex items-center gap-3">
                   <Image
                     src="/img/cc-logo-new.png"
