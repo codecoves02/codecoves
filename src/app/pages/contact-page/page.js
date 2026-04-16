@@ -3,6 +3,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
+import { db } from '../../../../lib/firebase';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import Swal from 'sweetalert2';
 import {
   ArrowLeft, Mail, Phone, MapPin, Send,
   User, MessageSquare, CheckCircle, Clock, Globe, ArrowRight
@@ -105,11 +108,39 @@ function ContactForm() {
   const [sent, setSent] = useState(false);
 
   const handle = e => setForm(f => ({ ...f, [e.target.name]: e.target.value }));
-  const submit = e => {
+  const submit = async e => {
     e.preventDefault();
+    try {
+      await addDoc(collection(db, 'contacts'), {
+        ...form,
+        source: 'contact-page',
+        createdAt: serverTimestamp(),
+      });
+      Swal.fire({
+        title: 'Message Sent! 🚀',
+        text: "Thanks for reaching out! We'll get back to you within 24 hours.",
+        icon: 'success',
+        confirmButtonText: 'Great, thanks!',
+        background: '#0d0d0d',
+        color: '#ffffff',
+        confirmButtonColor: '#b14cff',
+        iconColor: '#b14cff',
+      });
+      setForm({ name: '', email: '', phone: '', service: '', message: '' });
+    } catch (err) {
+      console.error('Firebase error:', err);
+      Swal.fire({
+        title: 'Oops! 😕',
+        text: 'Something went wrong. Please try again or reach us on WhatsApp.',
+        icon: 'error',
+        confirmButtonText: 'Try Again',
+        background: '#0d0d0d',
+        color: '#ffffff',
+        confirmButtonColor: '#b14cff',
+      });
+    }
     setSent(true);
     setTimeout(() => setSent(false), 5000);
-    setForm({ name: '', email: '', phone: '', service: '', message: '' });
   };
 
   // const budgets = ['< $500', '$500–$1k', '$1k–$5k', '$5k–$10k', '$10k+'];

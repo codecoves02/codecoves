@@ -3,6 +3,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { Mail, Phone, MapPin, Send, User, MessageSquare, CheckCircle, Briefcase } from 'lucide-react';
+import { db } from '../../../lib/firebase';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import Swal from 'sweetalert2';
 import '../css/contact.css';
 
 /* ── Particle BG ── */
@@ -179,17 +182,46 @@ function ContactVisual({ inView }) {
 
 /* ── Right Form ── */
 function ContactForm({ inView }) {
-  const [form, setForm] = useState({ name: '', email: '', service: '', message: '' });
+  const [form, setForm] = useState({ name: '', email: '', phone: '', service: '', message: '' });
   const [focused, setFocused] = useState('');
-  const [sent, setSent] = useState(false);
 
   const handle = e => setForm(f => ({ ...f, [e.target.name]: e.target.value }));
 
-  const submit = e => {
+  const submit = async e => {
     e.preventDefault();
-    setSent(true);
-    setTimeout(() => setSent(false), 4000);
-    setForm({ name: '', email: '', service: '', message: '' });
+    try {
+      await addDoc(collection(db, 'contacts'), {
+        ...form,
+        source: 'homepage-contact',
+        createdAt: serverTimestamp(),
+      });
+      Swal.fire({
+        title: 'Message Sent! 🚀',
+        text: "We've received your message and will get back to you within 24 hours.",
+        icon: 'success',
+        confirmButtonText: 'Awesome!',
+        background: '#0d0d0d',
+        color: '#ffffff',
+        confirmButtonColor: '#b14cff',
+        iconColor: '#b14cff',
+        customClass: {
+          popup: 'swal-custom-popup',
+          title: 'swal-custom-title',
+        },
+      });
+      setForm({ name: '', email: '', phone: '', service: '', message: '' });
+    } catch (err) {
+      console.error('Firebase error:', err);
+      Swal.fire({
+        title: 'Oops! 😕',
+        text: 'Something went wrong. Please try again or contact us directly.',
+        icon: 'error',
+        confirmButtonText: 'Try Again',
+        background: '#0d0d0d',
+        color: '#ffffff',
+        confirmButtonColor: '#b14cff',
+      });
+    }
   };
 
   const services = ['Web Development', 'Mobile App', 'UI/UX Design', 'AI Solution', 'Other'];
@@ -200,32 +232,14 @@ function ContactForm({ inView }) {
       animate={inView ? { opacity: 1, x: 0 } : {}}
       transition={{ duration: 0.8 }}
     >
-      <AnimatePresence mode="wait">
-        {sent ? (
-          <motion.div key="success" className="cf-success"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-          >
-            <motion.div className="cf-success-icon"
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ type: 'spring', stiffness: 200, delay: 0.1 }}
-            >
-              <CheckCircle size={52} color="#68a063" />
-            </motion.div>
-            <h3>Message Sent!</h3>
-            <p>We'll get back to you within 24 hours.</p>
-          </motion.div>
-        ) : (
-          <motion.form key="form" onSubmit={submit} className="cf-form"
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-          >
-            {/* form heading */}
-            <div className="cf-form-header">
-              <h3 className="cf-form-title">Send Us a <span>Message</span></h3>
-              <p className="cf-form-sub">Fill in the details and we'll get back to you within 24 hours.</p>
-            </div>
+      <motion.form onSubmit={submit} className="cf-form"
+        initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+      >
+        {/* form heading */}
+        <div className="cf-form-header">
+          <h3 className="cf-form-title">Send Us a <span>Message</span></h3>
+          <p className="cf-form-sub">Fill in the details and we'll get back to you within 24 hours.</p>
+        </div>
             {/* two col */}
             <div className="cf-row">
               {/* Name */}
@@ -247,6 +261,17 @@ function ContactForm({ inView }) {
                     onFocus={() => setFocused('email')} onBlur={() => setFocused('')}
                     placeholder="you@email.com" required className="cf-input" />
                 </div>
+              </div>
+            </div>
+
+            {/* Phone */}
+            <div className="cf-field cf-field-full">
+              <label className="cf-label">Phone / WhatsApp (Optional)</label>
+              <div className={`cf-input-box ${focused === 'phone' ? 'cf-focused' : ''}`}>
+                <Phone size={16} className="cf-icon" />
+                <input name="phone" type="tel" value={form.phone} onChange={handle}
+                  onFocus={() => setFocused('phone')} onBlur={() => setFocused('')}
+                  placeholder="+92 300 0000000" className="cf-input" />
               </div>
             </div>
 
@@ -283,8 +308,6 @@ function ContactForm({ inView }) {
               <Send size={18} />
             </motion.button>
           </motion.form>
-        )}
-      </AnimatePresence>
     </motion.div>
   );
 }

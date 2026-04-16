@@ -15,10 +15,13 @@ const Navbar = () => {
 
     const navLinks = [
         { name: "Home", href: "#" },
-        { name: "About", href: "#about" },
-        { name: "Services", href: "#services", hasDropdown: true },
-        { name: "Portfolio", href: "#portfolio" },
-        { name: "Contact", href: "#contact" },
+        { name: "About", href: "/pages/about-page" },
+        {
+            name: "Services", href: "/pages/services-page",
+            // hasDropdown: true
+        },
+        { name: "Portfolio", href: "/pages/portfolio-page" },
+        { name: "Contact", href: "/pages/contact-page" },
     ];
 
     const heroData = [
@@ -75,17 +78,17 @@ const Navbar = () => {
             {/* Navbar */}
             <nav className="flex items-center justify-between px-6 sm:px-12 py-3 bg-black/50 backdrop-blur-xl fixed w-full z-50 border-b border-white/10">
                 <Link href="/" className="flex items-center gap-3">
-                  <Image
-                    src="/img/cc-logo-new.png"
-                    alt="CodeCoves"
-                    width={100}
-                    height={100}
-                    className="cc-logo"
+                    <Image
+                        src="/img/cc-logo-new.png"
+                        alt="CodeCoves"
+                        width={100}
+                        height={100}
+                        className="cc-logo"
                     // style={{ filter: 'brightness(0) invert(1) sepia(1) saturate(3) hue-rotate(240deg)', objectFit: 'contain', width: '52px', height: '52px' }}
-                  />
-                  <span className="text-white font-bold text-2xl tracking-tight">
-                    Code<span className="bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent">Coves</span>
-                  </span>
+                    />
+                    <span className="text-white font-bold text-2xl tracking-tight">
+                        Code<span className="bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent">Coves</span>
+                    </span>
                 </Link>
                 <ul className="hidden lg:flex items-center space-x-10 text-white font-medium">
                     {navLinks.map((link) => (
@@ -105,7 +108,7 @@ const Navbar = () => {
                         </li>
                     ))}
                 </ul>
-                <a href="#contact" className="hidden lg:block bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 shadow-lg hover:shadow-purple-500/25">Get Started</a>
+                <a href="/pages/contact-page" className="hidden lg:block bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 shadow-lg hover:shadow-purple-500/25">Get Started</a>
                 <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="lg:hidden text-white z-50">
                     {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
                 </button>
@@ -120,7 +123,7 @@ const Navbar = () => {
                             </li>
                         ))}
                         <li>
-                            <a href="#contact" onClick={() => setMobileMenuOpen(false)} className="inline-block mt-8 bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 text-white px-10 py-4 rounded-full font-bold transition-all">Get Started</a>
+                            <a href="/pages/contact-page" onClick={() => setMobileMenuOpen(false)} className="inline-block mt-8 bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 text-white px-10 py-4 rounded-full font-bold transition-all">Get Started</a>
                         </li>
                     </ul>
                 </div>
@@ -207,14 +210,13 @@ const Navbar = () => {
 
                     {/* BUTTONS */}
                     <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
-                        <a href="#services" className="inline-block bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 text-white px-8 sm:px-10 py-4 sm:py-5 rounded-full font-bold text-base sm:text-lg transition-all duration-300 shadow-xl hover:shadow-purple-500/40 text-center">
+                        <a href="/pages/services-page" className="inline-block bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 text-white px-8 sm:px-10 py-4 sm:py-5 rounded-full font-bold text-base sm:text-lg transition-all duration-300 shadow-xl hover:shadow-purple-500/40 text-center">
                             Explore Services
                         </a>
-                        <a href="#contact" className="inline-block border-2 border-purple-500 text-white px-8 sm:px-10 py-4 sm:py-5 rounded-full font-bold text-base sm:text-lg hover:bg-purple-600/20 transition-all duration-300 text-center">
+                        <a href="/pages/contact-page" className="inline-block border-2 border-purple-500 text-white px-8 sm:px-10 py-4 sm:py-5 rounded-full font-bold text-base sm:text-lg hover:bg-purple-600/20 transition-all duration-300 text-center">
                             Contact Us
                         </a>
                     </div>
-
                 </div>
             </section>
         </header>
