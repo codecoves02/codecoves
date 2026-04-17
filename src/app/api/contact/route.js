@@ -1,6 +1,4 @@
 import nodemailer from 'nodemailer';
-import fs from 'fs';
-import path from 'path';
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -10,15 +8,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// Logo as CID attachment
-const LOGO_PATH = path.join(process.cwd(), 'public', 'img', 'cc-logo-new.png');
-const LOGO_CID  = 'codecoves-logo@codecoves';
-
-const logoAttachment = {
-  filename: 'codecoves-logo.png',
-  path: LOGO_PATH,
-  cid: LOGO_CID,
-};
+const LOGO_CID = 'codecoves-logo@codecoves';
 
 /* ── User Thank You Email ── */
 function userEmailHTML({ name, service, message }) {
@@ -39,7 +29,7 @@ function userEmailHTML({ name, service, message }) {
           <!-- HEADER -->
           <tr>
             <td style="background:linear-gradient(135deg,#1a0030,#2d0050,#1a0030);padding:40px 40px 30px;text-align:center;border-bottom:1px solid rgba(177,76,255,0.3);">
-              <img src="cid:${LOGO_CID}" alt="CodeCoves" width="70" height="70"
+              <img src="https://raw.githubusercontent.com/codecoves02/codecoves/main/public/img/cc-logo-new.png" alt="CodeCoves" width="70" height="70"
                 style="margin-bottom:16px;display:block;margin-left:auto;margin-right:auto;border-radius:12px;" />
               <h1 style="margin:0;font-size:28px;font-weight:900;color:#fff;letter-spacing:-0.5px;">
                 Code<span style="color:#b14cff;">Coves</span>
@@ -168,7 +158,7 @@ function adminEmailHTML({ name, email, phone, service, message, source }) {
               <table width="100%" cellpadding="0" cellspacing="0">
                 <tr>
                   <td>
-                    <img src="cid:${LOGO_CID}" alt="CodeCoves" width="44" height="44"
+                    <img src="https://raw.githubusercontent.com/codecoves02/codecoves/main/public/img/cc-logo-new.png" alt="CodeCoves" width="44" height="44"
                       style="vertical-align:middle;margin-right:12px;border-radius:8px;" />
                     <span style="font-size:20px;font-weight:900;color:#fff;vertical-align:middle;">CodeCoves</span>
                   </td>
@@ -261,7 +251,6 @@ export async function POST(req) {
         to: email,
         subject: `Thank you for reaching out, ${name}! 🚀`,
         html: userEmailHTML({ name, service, message }),
-        attachments: [logoAttachment],
       }),
       // 2. Notification to admin
       transporter.sendMail({
@@ -269,7 +258,6 @@ export async function POST(req) {
         to: process.env.NOTIFY_EMAIL,
         subject: `🔔 New Contact: ${name} – ${service || 'General Inquiry'}`,
         html: adminEmailHTML({ name, email, phone, service, message, source }),
-        attachments: [logoAttachment],
       }),
     ]);
 
