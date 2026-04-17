@@ -189,12 +189,32 @@ function ContactForm({ inView }) {
 
   const submit = async e => {
     e.preventDefault();
+
+    // Loading popup
+    Swal.fire({
+      title: 'Sending...',
+      text: 'Please wait while we send your message.',
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      didOpen: () => Swal.showLoading(),
+      background: '#0d0d0d',
+      color: '#fff',
+    });
+
     try {
       await addDoc(collection(db, 'contacts'), {
         ...form,
         source: 'homepage-contact',
         createdAt: serverTimestamp(),
       });
+
+      // Send emails
+      await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...form, source: 'homepage-contact' }),
+      });
+
       Swal.fire({
         title: 'Message Sent! 🚀',
         text: "We've received your message and will get back to you within 24 hours.",

@@ -81,16 +81,15 @@ const faqs = [
   { q: 'Will I own the source code?',            a: 'Yes. Once the project is complete and payment is settled, full ownership of the source code transfers to you.' },
 ];
 
-function FAQItem({ q, a, i }) {
-  const [open, setOpen] = useState(false);
+function FAQItem({ q, a, i, isOpen, onToggle }) {
   return (
     <motion.div className="cp-faq-item" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}>
-      <button className={`cp-faq-q ${open ? 'cp-faq-open' : ''}`} onClick={() => setOpen(!open)}>
+      <button className={`cp-faq-q ${isOpen ? 'cp-faq-open' : ''}`} onClick={onToggle}>
         {q}
-        <span className="cp-faq-arrow">{open ? '−' : '+'}</span>
+        <span className="cp-faq-arrow">{isOpen ? '−' : '+'}</span>
       </button>
       <AnimatePresence>
-        {open && (
+        {isOpen && (
           <motion.div className="cp-faq-a" initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.3 }}>
             <p>{a}</p>
           </motion.div>
@@ -110,12 +109,32 @@ function ContactForm() {
   const handle = e => setForm(f => ({ ...f, [e.target.name]: e.target.value }));
   const submit = async e => {
     e.preventDefault();
+
+    // Loading popup
+    Swal.fire({
+      title: 'Sending...',
+      text: 'Please wait while we send your message.',
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      didOpen: () => Swal.showLoading(),
+      background: '#0d0d0d',
+      color: '#fff',
+    });
+
     try {
       await addDoc(collection(db, 'contacts'), {
         ...form,
         source: 'contact-page',
         createdAt: serverTimestamp(),
       });
+
+      // Send emails
+      await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...form, source: 'contact-page' }),
+      });
+
       Swal.fire({
         title: 'Message Sent! 🚀',
         text: "Thanks for reaching out! We'll get back to you within 24 hours.",
@@ -246,6 +265,8 @@ function ContactForm() {
 }
 
 export default function ContactPage() {
+  const [faqOpen, setFaqOpen] = useState(null);
+  const toggleFaq = (i) => setFaqOpen(faqOpen === i ? null : i);
   return (
     <>
       <ReusableNavbar />
@@ -377,7 +398,7 @@ export default function ContactPage() {
             Frequently Asked <span className="cp-purple">Questions</span>
           </motion.h2>
           <div className="cp-faq-list">
-            {faqs.map((f, i) => <FAQItem key={i} q={f.q} a={f.a} i={i} />)}
+            {faqs.map((f, i) => <FAQItem key={i} q={f.q} a={f.a} i={i} isOpen={faqOpen === i} onToggle={() => toggleFaq(i)} />)}
           </div>
         </div>
 

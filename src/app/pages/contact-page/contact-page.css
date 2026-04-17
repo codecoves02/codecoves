@@ -282,10 +282,76 @@
 }
 .cp-bottom-btn:hover { box-shadow: 0 0 50px rgba(177,76,255,0.6); }
 
-/* responsive */
-@media (max-width: 600px) {
-  .cp-hero-title  { font-size: 36px; }
-  .cp-section-title { font-size: 28px; }
+/* ══════════════════════════════
+   RESPONSIVE
+══════════════════════════════ */
+
+/* tablet */
+@media (max-width: 960px) {
+  .cp-hero { padding: 100px 5% 60px; min-height: 380px; }
+  .cp-hero-title { font-size: 46px; }
+  .cp-cards-section { padding: 50px 5%; }
+  .cp-main-grid { grid-template-columns: 1fr; padding: 0 5% 60px; }
   .cp-faq-section { padding: 60px 5%; }
-  .cp-bottom-cta  { padding: 36px 20px; margin: 0 5% 60px; }
+  .cp-bottom-cta { margin: 0 5% 60px; }
+}
+
+/* mobile */
+@media (max-width: 600px) {
+  .cp-hero { padding: 90px 5% 50px; min-height: 320px; }
+  .cp-hero-title { font-size: 30px; letter-spacing: -0.5px; }
+  .cp-hero-sub { font-size: 14px; margin-bottom: 20px; }
+  .cp-hero-pills { gap: 8px; }
+  .cp-pill { font-size: 12px; padding: 6px 12px; }
+
+  /* contact cards */
+  .cp-cards-section { padding: 36px 5%; }
+  .cp-cards-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .cp-info-card { padding: 18px 14px; }
+  .cp-info-icon { width: 40px; height: 40px; border-radius: 10px; margin-bottom: 10px; }
+  .cp-info-value { font-size: 13px; }
+  .cp-info-sub { font-size: 11px; }
+
+  /* form */
+  .cp-form-card { padding: 24px 16px; }
+  .cp-form-header h3 { font-size: 22px; }
+  .cp-row { grid-template-columns: 1fr; }
+  .cp-chips { gap: 6px; }
+  .cp-chip { padding: 7px 12px; font-size: 12px; }
+  .cp-submit { font-size: 15px; padding: 15px; }
+
+  /* sidebar */
+  .cp-why-card, .cp-social-card, .cp-avail-card { padding: 20px 16px; }
+  .cp-why-item { font-size: 13px; }
+  .cp-social-btn { font-size: 13px; padding: 10px 14px; }
+
+  /* faq */
+  .cp-faq-section { padding: 50px 5%; }
+  .cp-section-title { font-size: 26px; margin-bottom: 28px; }
+  .cp-faq-q { font-size: 14px; padding: 16px 18px; }
+  .cp-faq-a p { padding: 0 18px 16px; font-size: 13px; }
+
+  /* bottom cta */
+  .cp-bottom-cta { padding: 32px 18px; margin: 0 5% 50px; }
+  .cp-bottom-cta h3 { font-size: 22px; }
+  .cp-bottom-cta p { font-size: 14px; }
+  .cp-bottom-btn { padding: 13px 26px; font-size: 14px; }
+}
+
+/* very small */
+@media (max-width: 380px) {
+  .cp-hero-title { font-size: 24px; }
+  .cp-cards-grid { grid-template-columns: 1fr; }
+  .cp-section-title { font-size: 22px; }
+}
+
+/* ── Fix browser autofill white background ── */
+.cp-input:-webkit-autofill,
+.cp-input:-webkit-autofill:hover,
+.cp-input:-webkit-autofill:focus,
+.cp-input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px #0d0d0d inset !important;
+  -webkit-text-fill-color: #fff !important;
+  caret-color: #fff;
+  transition: background-color 9999s ease-in-out 0s;
 }

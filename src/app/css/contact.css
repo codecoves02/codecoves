@@ -248,3 +248,14 @@
 }
 .cf-success h3 { font-size: 26px; font-weight: 800; color: #fff; }
 .cf-success p  { font-size: 15px; color: #888; }
+
+/* ── Fix browser autofill white background ── */
+.cf-input:-webkit-autofill,
+.cf-input:-webkit-autofill:hover,
+.cf-input:-webkit-autofill:focus,
+.cf-input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px #0d0d0d inset !important;
+  -webkit-text-fill-color: #fff !important;
+  caret-color: #fff;
+  transition: background-color 9999s ease-in-out 0s;
+}

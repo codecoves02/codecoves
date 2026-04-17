@@ -7,18 +7,20 @@ import { Menu, X } from "lucide-react";
 import '../css/navbar2.css'
 
 const navLinks = [
-  { name: "Home",      href: "/"          },
-  { name: "About",     href: "/#about"    },
-  { name: "Services",  href: "/services", hasDropdown: true },
-  { name: "Portfolio", href: "/#portfolio"},
-  { name: "Contact",   href: "/#contact"  },
+  { name: "Home",      href: "/"                    },
+  { name: "About",     href: "/pages/about-page"    },
+  { name: "Services",  href: "/pages/services-page",
+    //  hasDropdown: true
+     },
+  { name: "Portfolio", href: "/pages/portfolio-page" },
+  { name: "Contact",   href: "/pages/contact-page"  },
 ];
 
 const dropdownItems = [
-  { label: "Web Development", href: "/services#web-development" },
-  { label: "Mobile Apps",     href: "/services#mobile-apps"     },
-  { label: "UI/UX Design",    href: "/services#ui-ux-design"    },
-  { label: "AI Solutions",    href: "/services#ai-solutions"    },
+  { label: "Web Development", href: "/pages/services-page#web-development" },
+  { label: "Mobile Apps",     href: "/pages/services-page#mobile-apps"     },
+  { label: "UI/UX Design",    href: "/pages/services-page#ui-ux-design"    },
+  { label: "AI Solutions",    href: "/pages/services-page#ai-solutions"    },
 ];
 
 export default function ReusableNavbar() {
@@ -71,7 +73,7 @@ export default function ReusableNavbar() {
         </ul>
 
         {/* CTA */}
-        <Link href="/#contact" className="hidden lg:block bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 shadow-lg hover:shadow-purple-500/25">
+        <Link href="/pages/contact-page" className="hidden lg:block bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 shadow-lg hover:shadow-purple-500/25">
           Get Started
         </Link>
 
@@ -93,7 +95,7 @@ export default function ReusableNavbar() {
               </li>
             ))}
             <li>
-              <Link href="/#contact" onClick={() => setMobileOpen(false)} className="inline-block mt-8 bg-gradient-to-r from-purple-600 to-purple-800 text-white px-10 py-4 rounded-full font-bold transition-all">
+              <Link href="/pages/contact-page" onClick={() => setMobileOpen(false)} className="inline-block mt-8 bg-gradient-to-r from-purple-600 to-purple-800 text-white px-10 py-4 rounded-full font-bold transition-all">
                 Get Started
               </Link>
             </li>

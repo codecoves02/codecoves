@@ -125,24 +125,53 @@ export default function AboutPage() {
               <p>From startups launching their first MVP to enterprises scaling their platforms, CodeCoves is the team you want in your corner.</p>
             </div>
             <div className="ap-who-visual">
-              <div className="ap-who-card">
-                <div className="ap-who-ring ap-who-ring-1" />
-                <div className="ap-who-ring ap-who-ring-2" />
-                <div className="ap-who-center">
-                  <span className="ap-who-logo">Code<span>Coves</span></span>
-                  <span className="ap-who-tagline">Software House</span>
-                </div>
+              {/* Animated tech showcase */}
+              <div className="ap-tech-showcase">
+
+                {/* center glow */}
+                <div className="ap-ts-glow" />
+
+                {/* main center card */}
+                <motion.div className="ap-ts-center"
+                  animate={{ boxShadow: ['0 0 30px rgba(177,76,255,0.3)', '0 0 60px rgba(177,76,255,0.55)', '0 0 30px rgba(177,76,255,0.3)'] }}
+                  transition={{ duration: 3, repeat: Infinity }}
+                >
+                  <span className="ap-ts-logo">Code<span>Coves</span></span>
+                  <span className="ap-ts-sub">Software House</span>
+                  <div className="ap-ts-divider" />
+                  <div className="ap-ts-stack">
+                    {['Next.js', 'React', 'Node.js', 'Firebase'].map((t, i) => (
+                      <span key={t} className="ap-ts-tag">{t}</span>
+                    ))}
+                  </div>
+                </motion.div>
+
+                {/* floating feature cards */}
                 {[
-                  { text: '⚡ Fast', top: '10%', left: '-20px' },
-                  { text: '🔒 Secure', bottom: '15%', right: '-20px' },
-                  { text: '✨ Quality', top: '50%', right: '-30px' },
-                ].map((b, i) => (
-                  <motion.div key={i} className="ap-who-badge"
-                    style={{ top: b.top, bottom: b.bottom, left: b.left, right: b.right }}
-                    animate={{ y: [0, -8, 0] }}
-                    transition={{ duration: 3 + i * 0.5, repeat: Infinity, ease: 'easeInOut' }}
-                  >{b.text}</motion.div>
+                  { icon: '⚡', title: 'Fast Delivery',   sub: 'On-time, every time',   pos: 'top-left'    },
+                  { icon: '🔒', title: 'Secure Code',     sub: 'Built to last',          pos: 'top-right'   },
+                  { icon: '✨', title: 'Clean UI/UX',     sub: 'Pixel-perfect design',   pos: 'bottom-left' },
+                  { icon: '🌍', title: 'Global Ready',    sub: 'Scalable & responsive',  pos: 'bottom-right'},
+                ].map((card, i) => (
+                  <motion.div key={i} className={`ap-ts-card ap-ts-card-${card.pos}`}
+                    animate={{ y: [0, i % 2 === 0 ? -10 : 10, 0] }}
+                    transition={{ duration: 3.5 + i * 0.4, repeat: Infinity, ease: 'easeInOut' }}
+                  >
+                    <span className="ap-ts-card-icon">{card.icon}</span>
+                    <div>
+                      <div className="ap-ts-card-title">{card.title}</div>
+                      <div className="ap-ts-card-sub">{card.sub}</div>
+                    </div>
+                  </motion.div>
                 ))}
+
+                {/* orbit dots */}
+                <div className="ap-ts-orbit">
+                  {[0, 60, 120, 180, 240, 300].map((deg, i) => (
+                    <div key={i} className="ap-ts-orbit-dot" style={{ '--deg': `${deg}deg` }} />
+                  ))}
+                </div>
+
               </div>
             </div>
           </div>

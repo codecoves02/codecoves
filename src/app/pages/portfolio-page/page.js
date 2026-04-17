@@ -9,12 +9,32 @@ import Footer from '../../components/footer';
 import './portfolio-page.css';
 
 const moreProjects = [
-  { id: 2, title: 'MediCare — Healthcare App',    category: 'Mobile App', tags: ['React Native', 'Firebase', 'Node.js'],           desc: 'A mobile healthcare app for booking doctor appointments, viewing medical records, and teleconsultation.', color: '#68a063', gradient: 'linear-gradient(135deg, #0a2e0a, #1a4a1a)', emoji: '🏥', liveUrl: '#' },
-  { id: 3, title: 'FinTrack — Finance Dashboard', category: 'Web App',    tags: ['React', 'Chart.js', 'Python', 'FastAPI'],         desc: 'A real-time financial analytics dashboard with expense tracking, budgeting, and AI-powered insights.',    color: '#ffd43b', gradient: 'linear-gradient(135deg, #2a1f00, #3d2e00)', emoji: '📊', liveUrl: '#' },
-  { id: 4, title: 'SmartChat — AI Chatbot',       category: 'AI',         tags: ['OpenAI', 'Next.js', 'Python', 'WebSocket'],       desc: 'An AI-powered customer support chatbot platform with multi-language support and real-time analytics.',   color: '#b14cff', gradient: 'linear-gradient(135deg, #1a0030, #2d0050)', emoji: '🤖', liveUrl: '#' },
-  { id: 5, title: 'EduLearn — LMS Platform',      category: 'Web App',    tags: ['Next.js', 'PostgreSQL', 'AWS', 'Stripe'],         desc: 'A complete learning management system with course creation, video streaming, quizzes, and certificates.',  color: '#2496ed', gradient: 'linear-gradient(135deg, #001a2e, #002d4a)', emoji: '📚', liveUrl: '#' },
-  { id: 6, title: 'PropVista — Real Estate',       category: 'Web App',    tags: ['Next.js', 'Google Maps', 'Node.js', 'MySQL'],     desc: 'A real estate listing platform with advanced search, virtual tours, and mortgage calculator.',             color: '#28c840', gradient: 'linear-gradient(135deg, #001a0a, #002d12)', emoji: '🏠', liveUrl: '#' },
-  { id: 7, title: 'FoodieApp — Food Delivery',     category: 'Mobile App', tags: ['React Native', 'Node.js', 'MongoDB', 'Maps API'], desc: 'A food delivery app with real-time order tracking, restaurant management, and payment integration.',       color: '#ff6b35', gradient: 'linear-gradient(135deg, #2a0f00, #4a1a00)', emoji: '🍔', liveUrl: '#' },
+  {
+    id: 2, title: 'VoltrixStation — EV Charging Platform', category: 'Web App',
+    tags: ['Next.js', 'Firebase', 'Admin Panel', 'Real-time'],
+    desc: 'A full-featured electric vehicle charging platform. Users buy time-based plans, get a unique code, and charge at any station. Real-time session tracking shows remaining time. Includes a complete admin panel to manage stations, users, and plans.',
+    fullDesc: 'VoltrixStation is a complete EV charging management platform built with Next.js and Firebase. The platform allows users to register, browse available charging plans (e.g. 130 PKR for 2 hours), and make payments. Upon successful payment, a unique session code is generated. The user visits any VoltrixStation charging station, enters the code, and begins charging. The platform tracks the session in real-time — if a user charges for 10 minutes and disconnects, the remaining 1 hour 50 minutes is displayed on their dashboard and can be used later. The admin panel gives full control over station management, user accounts, plan configuration, session monitoring, and revenue analytics.',
+    features: ['User authentication & profiles', 'Multiple charging plans with pricing', 'Unique session code generation', 'Real-time session tracking & timer', 'Multi-station support', 'Session history & usage logs', 'Admin panel — full management', 'Revenue & analytics dashboard'],
+    color: '#00d4aa', gradient: 'linear-gradient(135deg, #001a14, #003328)', emoji: '⚡', liveUrl: 'https://voltrixstation.com',
+  },
+  {
+    id: 8, title: 'DFTL — Dawood Family Takaful', category: 'Corporate Website',
+    tags: ['Next.js', 'SQL', 'Bootstrap', 'Custom CSS'],
+    desc: 'Official corporate website for Dawood Family Takaful Ltd. — a leading takaful (Islamic insurance) company. Contributed to the project as part of a collaborative effort with the DFTL IT team.',
+    fullDesc: `This is an official project of Dawood Family Takaful Ltd. (DFTL). All intellectual property, content, branding, and rights belong exclusively to DFTL.\n\nAs a contributor on this project, I worked collaboratively with the DFTL IT team on the development and modernization of their official corporate website. My specific contribution involved converting the existing website architecture to Next.js, significantly improving performance, SEO, and overall user experience through modern web standards.\n\nThe frontend was built using Bootstrap and custom CSS for a fully responsive, professional corporate look. Backend logic including user authentication and data management was handled using SQL-based infrastructure provided and maintained by the DFTL IT team.\n\nThe website features a complete corporate presence including takaful plan information, online plan purchase (Buy Now), payment integration, customer portal, and detailed product pages — all aligned with DFTL's brand identity and compliance requirements.`,
+    features: [
+      'Full corporate website — DFTL brand',
+      'Takaful plan listings & details',
+      'Online plan purchase (Buy Now)',
+      'Payment integration',
+      'Customer login portal (SQL backend by DFTL IT)',
+      'Next.js migration for performance',
+      'Bootstrap + custom CSS — fully responsive',
+      'SEO optimized with Next.js SSR',
+    ],
+    color: '#1e88e5', gradient: 'linear-gradient(135deg, #001428, #002244)', emoji: '🛡️', liveUrl: '#',
+    disclaimer: true,
+  },
 ];
 
 /* ── Particle BG ── */
@@ -61,13 +81,13 @@ function ParticleBg() {
 }
 
 const project = {
-  title: 'LaceVeil — Premium Lingerie Store',
+  title: 'A.H Garments — Premium Lingerie Store',
   category: 'E-Commerce',
-  tags: ['Next.js', 'Node.js', 'MongoDB', 'Stripe', 'Tailwind CSS'],
+  tags: ['Next.js', 'Firebase', 'Tailwind CSS'],
   color: '#e535ab',
   gradient: 'linear-gradient(135deg, #1a0010, #3d0030, #1a0010)',
-  liveUrl: '#',
-  desc: 'A fully custom e-commerce platform built for a premium lingerie brand. Designed with elegance, performance, and conversion in mind — every pixel crafted to reflect the brand\'s luxury identity.',
+  liveUrl: 'https://ahgarments.pk',
+  desc: 'A fully custom e-commerce platform built for A.H Garments — a premium lingerie brand. Designed with elegance, performance, and conversion in mind — every pixel crafted to reflect the brand\'s luxury identity.',
   highlights: [
     { icon: <ShoppingBag size={18} />, title: 'Full E-Commerce',    desc: 'Product catalog, cart, wishlist, checkout, and order management.' },
     { icon: <Smartphone size={18} />,  title: 'Mobile First',       desc: 'Fully responsive design optimized for mobile shoppers.' },
@@ -92,11 +112,12 @@ export default function PortfolioPage() {
   const detailRef = useRef(null);
   const inView   = useInView(detailRef, { once: true, margin: '-60px' });
   const [hovered, setHovered] = useState(null);
+  const [activeProject, setActiveProject] = useState(null);
 
   return (
     <>
       <ReusableNavbar />
-      <main className="pp-main">
+      <main className="pp-main pb-1">
         <ParticleBg />
         <div className="pp-orb pp-orb-1" />
         <div className="pp-orb pp-orb-2" />
@@ -133,7 +154,7 @@ export default function PortfolioPage() {
                 transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
               >
                 <div className="pp-project-icon-big">👗</div>
-                <div className="pp-project-brand">LaceVeil</div>
+                <div className="pp-project-brand">A.H Garments</div>
                 <div className="pp-project-brand-sub">Premium Lingerie</div>
               </motion.div>
 
@@ -229,6 +250,7 @@ export default function PortfolioPage() {
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.08 }}
                   whileHover={{ y: -6 }}
+                  onClick={() => setActiveProject(p)}
                 >
                   <div className="pp-more-visual" style={{ background: p.gradient }}>
                     <span className="pp-more-emoji">{p.emoji}</span>
@@ -265,6 +287,73 @@ export default function PortfolioPage() {
         </motion.div>
 
       </main>
+
+      {/* ── PROJECT DETAIL MODAL ── */}
+      <AnimatePresence>
+        {activeProject && (
+          <motion.div
+            className="pp-modal-overlay"
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            onClick={() => setActiveProject(null)}
+          >
+            <motion.div
+              className="pp-modal"
+              initial={{ opacity: 0, y: 60, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 40, scale: 0.95 }}
+              transition={{ duration: 0.35 }}
+              onClick={e => e.stopPropagation()}
+              style={{ '--mc': activeProject.color }}
+            >
+              {/* modal header */}
+              <div className="pp-modal-header" style={{ background: activeProject.gradient }}>
+                <div className="pp-modal-emoji">{activeProject.emoji}</div>
+                <button className="pp-modal-close" onClick={() => setActiveProject(null)}>✕</button>
+              </div>
+
+              {/* modal body */}
+              <div className="pp-modal-body">
+                <div className="pp-modal-cat" style={{ color: activeProject.color }}>{activeProject.category}</div>
+                <h2 className="pp-modal-title">{activeProject.title}</h2>
+
+                <div className="pp-modal-tags">
+                  {activeProject.tags.map(t => <span key={t} className="pp-tag">{t}</span>)}
+                </div>
+
+                <p className="pp-modal-desc">{activeProject.fullDesc || activeProject.desc}</p>
+
+                {activeProject.disclaimer && (
+                  <div className="pp-modal-disclaimer">
+                    ⚠️ <strong>Note:</strong> This project was developed in collaboration with the DFTL IT team. All rights, content, and intellectual property belong exclusively to Dawood Family Takaful Ltd. (DFTL). This entry reflects only the contributor's technical involvement in the project.
+                  </div>
+                )}
+
+                {activeProject.features && (
+                  <div className="pp-modal-features">
+                    <div className="pp-modal-features-title">Key Features</div>
+                    <div className="pp-modal-features-grid">
+                      {activeProject.features.map((f, i) => (
+                        <div key={i} className="pp-modal-feature-item">
+                          <span className="pp-modal-bullet" style={{ background: activeProject.color }} />
+                          {f}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {activeProject.liveUrl !== '#' && (
+                  <a href={activeProject.liveUrl} target="_blank" rel="noopener noreferrer"
+                    className="pp-modal-btn" style={{ background: `linear-gradient(135deg, ${activeProject.color}, ${activeProject.color}99)` }}>
+                    <Eye size={16} /> View Live Project <ExternalLink size={14} />
+                  </a>
+                )}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <Footer />
     </>
   );
