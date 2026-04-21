@@ -5,6 +5,8 @@ import { useEffect } from 'react';
 export default function OneSignalInit() {
   useEffect(() => {
     if (typeof window === 'undefined') return;
+    // Only run on production — OneSignal doesn't work on localhost
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') return;
 
     window.OneSignalDeferred = window.OneSignalDeferred || [];
     window.OneSignalDeferred.push(async function(OneSignal) {

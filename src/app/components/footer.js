@@ -1,10 +1,14 @@
 'use client';
 
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import {
   FaGithub, FaLinkedin, FaTwitter, FaInstagram,
 } from 'react-icons/fa';
 import { Mail, Phone, MapPin, ChevronRight, Heart } from 'lucide-react';
+import { db } from '../../../lib/firebase';
+import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
+import Swal from 'sweetalert2';
 import '../css/footer.css';
 
 const links = {
@@ -53,6 +57,47 @@ const fadeUp = (delay = 0) => ({
 
 export default function Footer() {
   const year = new Date().getFullYear();
+  const [subEmail, setSubEmail] = useState('');
+  const [subLoading, setSubLoading] = useState(false);
+
+  const handleSubscribe = async () => {
+    if (!subEmail.trim()) return;
+    setSubLoading(true);
+
+    Swal.fire({
+      title: 'Subscribing...',
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      didOpen: () => Swal.showLoading(),
+      background: '#0d0d0d',
+      color: '#fff',
+    });
+
+    try {
+      const emailKey = subEmail.trim().toLowerCase().replace(/[.#$[\]]/g, '_');
+      const ref = doc(db, 'subscribers', emailKey);
+
+      await setDoc(ref, {
+        email: subEmail.trim(),
+        subscribedAt: serverTimestamp(),
+        source: 'footer',
+      }, { merge: true });
+      Swal.fire({
+        title: 'Subscribed! 🎉',
+        text: "You'll receive the latest updates from CodeCoves.",
+        icon: 'success',
+        confirmButtonText: 'Great!',
+        background: '#0d0d0d',
+        color: '#fff',
+        confirmButtonColor: '#b14cff',
+        iconColor: '#b14cff',
+      });
+      setSubEmail('');
+    } catch {
+      Swal.fire({ title: 'Error', text: 'Something went wrong. Try again.', icon: 'error', background: '#0d0d0d', color: '#fff', confirmButtonColor: '#b14cff' });
+    }
+    setSubLoading(false);
+  };
 
   return (
     <footer className="footer">
@@ -127,9 +172,11 @@ export default function Footer() {
             Get the latest updates on tech, projects, and insights from CodeCoves.
           </p>
           <div className="footer-newsletter-form">
-            <input type="email" placeholder="your@email.com" className="footer-newsletter-input" />
-            <motion.button className="footer-newsletter-btn" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              Subscribe
+            <input type="email" placeholder="your@email.com" className="footer-newsletter-input"
+              value={subEmail} onChange={e => setSubEmail(e.target.value)} />
+            <motion.button className="footer-newsletter-btn" onClick={handleSubscribe}
+              disabled={subLoading} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              {subLoading ? '...' : 'Subscribe'}
             </motion.button>
           </div>
           <div className="footer-badge-row">
