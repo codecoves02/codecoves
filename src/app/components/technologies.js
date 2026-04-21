@@ -8,23 +8,30 @@ import {
 } from 'react-icons/fa';
 import {
   SiNextdotjs, SiFirebase, SiMongodb,
-  SiTailwindcss, SiMysql,
+  SiTailwindcss, SiMysql, SiCanva, SiFigma,
+  SiAdobephotoshop, SiAdobeillustrator, SiAdobexd, SiAdobeaftereffects,
 } from 'react-icons/si';
 import '../css/technologies.css';
 
 const techs = [
-  { name: 'HTML5',       icon: FaHtml5,      color: '#e34f26' },
-  { name: 'CSS3',        icon: FaCss3Alt,    color: '#1572b6' },
-  { name: 'JavaScript',  icon: FaJs,         color: '#f7df1e' },
-  { name: 'React.js',    icon: FaReact,      color: '#61dafb' },
-  { name: 'Next.js',     icon: SiNextdotjs,  color: '#ffffff' },
-  { name: 'Node.js',     icon: FaNodeJs,     color: '#68a063' },
-  { name: 'Firebase',    icon: SiFirebase,   color: '#ffca28' },
-  { name: 'SQL',         icon: SiMysql,      color: '#4479a1' },
-  { name: 'MongoDB',     icon: SiMongodb,    color: '#4db33d' },
-  { name: 'Tailwind',    icon: SiTailwindcss,color: '#38bdf8' },
-  { name: 'Bootstrap',   icon: FaBootstrap,  color: '#7952b3' },
-  { name: 'GitHub',      icon: FaGithub,     color: '#ffffff' },
+  { name: 'HTML5',        icon: FaHtml5,            color: '#e34f26' },
+  { name: 'CSS3',         icon: FaCss3Alt,          color: '#1572b6' },
+  { name: 'JavaScript',   icon: FaJs,               color: '#f7df1e' },
+  { name: 'React.js',     icon: FaReact,            color: '#61dafb' },
+  { name: 'Next.js',      icon: SiNextdotjs,        color: '#ffffff' },
+  { name: 'Node.js',      icon: FaNodeJs,           color: '#68a063' },
+  { name: 'Firebase',     icon: SiFirebase,         color: '#ffca28' },
+  { name: 'SQL',          icon: SiMysql,            color: '#4479a1' },
+  { name: 'MongoDB',      icon: SiMongodb,          color: '#4db33d' },
+  { name: 'Tailwind',     icon: SiTailwindcss,      color: '#38bdf8' },
+  { name: 'Bootstrap',    icon: FaBootstrap,        color: '#7952b3' },
+  { name: 'GitHub',       icon: FaGithub,           color: '#ffffff' },
+  { name: 'Figma',        icon: SiFigma,            color: '#f24e1e' },
+  { name: 'Canva',        icon: SiCanva,            color: '#00c4cc' },
+  { name: 'Photoshop',    icon: SiAdobephotoshop,   color: '#31a8ff' },
+  { name: 'Illustrator',  icon: SiAdobeillustrator, color: '#ff9a00' },
+  { name: 'Adobe XD',     icon: SiAdobexd,          color: '#ff61f6' },
+  { name: 'After Effects',icon: SiAdobeaftereffects,color: '#9999ff' },
 ];
 
 /* ── Particle BG ── */

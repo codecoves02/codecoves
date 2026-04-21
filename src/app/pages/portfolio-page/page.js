@@ -3,10 +3,16 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
-import { ArrowLeft, ExternalLink, ArrowRight, Star, Eye, ShoppingBag, Globe, Smartphone, Palette, Package, Heart, Tag, Truck } from 'lucide-react';
+import { ArrowLeft, ExternalLink, ArrowRight, Star, Eye, ShoppingBag, Globe, Smartphone, Palette, Package, Heart, Tag, Truck, Code2, Brush, Sparkles } from 'lucide-react';
 import ReusableNavbar from '../../components/reusable-navbar';
 import Footer from '../../components/footer';
 import './portfolio-page.css';
+
+const CATEGORIES = [
+  { id: 'development', label: 'Development', icon: <Code2 size={15} /> },
+  { id: 'design',      label: 'Graphic Design', icon: <Brush size={15} /> },
+  { id: 'animation',   label: 'Animation',  icon: <Sparkles size={15} /> },
+];
 
 const moreProjects = [
   {
@@ -34,6 +40,60 @@ const moreProjects = [
     ],
     color: '#1e88e5', gradient: 'linear-gradient(135deg, #001428, #002244)', emoji: '🛡️', liveUrl: '#',
     disclaimer: true,
+  },
+];
+
+const designProjects = [
+  {
+    id: 'd1', title: 'Brand Identity — TechStart',
+    tags: ['Figma', 'Illustrator', 'Brand Design'],
+    desc: 'Complete brand identity design including logo, color palette, typography, and brand guidelines for a tech startup.',
+    fullDesc: 'A full brand identity package for TechStart — a technology startup. The project included logo design, color system, typography selection, business card design, letterhead, social media kit, and a comprehensive brand guidelines document. Designed in Figma and Adobe Illustrator.',
+    features: ['Logo design (primary + variants)', 'Color palette & typography', 'Business card & stationery', 'Social media kit', 'Brand guidelines document', 'Figma design system'],
+    color: '#f24e1e', gradient: 'linear-gradient(135deg, #2a0a00, #4a1500)', emoji: '🎨', liveUrl: '#',
+  },
+  {
+    id: 'd2', title: 'Social Media Design — E-Commerce',
+    tags: ['Canva', 'Photoshop', 'Social Media'],
+    desc: 'Complete social media design package — posts, stories, banners, and promotional graphics for an e-commerce brand.',
+    fullDesc: 'A complete social media design package for an e-commerce brand. Includes Instagram posts, stories, Facebook banners, promotional sale graphics, product highlight templates, and seasonal campaign designs. Created using Canva Pro and Adobe Photoshop with a consistent brand aesthetic.',
+    features: ['Instagram post templates', 'Story & reel covers', 'Facebook banners', 'Promotional graphics', 'Product highlight designs', 'Seasonal campaign assets'],
+    color: '#00c4cc', gradient: 'linear-gradient(135deg, #001a1a, #003333)', emoji: '📱', liveUrl: '#',
+  },
+  {
+    id: 'd3', title: 'UI/UX Design — Mobile App',
+    tags: ['Figma', 'Adobe XD', 'Prototyping'],
+    desc: 'Full UI/UX design for a mobile food delivery app — wireframes, high-fidelity screens, and interactive prototype.',
+    fullDesc: 'Complete UI/UX design for a mobile food delivery application. The project covered user research, wireframing, high-fidelity screen design, component library creation, and an interactive clickable prototype. Designed in Figma with a clean, modern aesthetic focused on usability and conversion.',
+    features: ['User research & personas', 'Wireframes & user flows', '40+ high-fidelity screens', 'Component library', 'Interactive prototype', 'Design handoff documentation'],
+    color: '#ff9a00', gradient: 'linear-gradient(135deg, #2a1500, #4a2800)', emoji: '🖌️', liveUrl: '#',
+  },
+];
+
+const animationProjects = [
+  {
+    id: 'a1', title: 'Motion Graphics — Product Launch',
+    tags: ['After Effects', 'Motion Design', 'Video'],
+    desc: 'Animated product launch video with motion graphics, transitions, and brand-aligned visual effects.',
+    fullDesc: 'A dynamic product launch animation created for a tech product reveal. The video features smooth motion graphics, kinetic typography, particle effects, and brand-aligned color transitions. Designed to be used across social media, website hero sections, and presentations.',
+    features: ['Kinetic typography animation', 'Particle & visual effects', 'Brand-aligned color grading', 'Social media format exports', 'Website hero video', 'Presentation-ready version'],
+    color: '#b14cff', gradient: 'linear-gradient(135deg, #1a0030, #2d0050)', emoji: '🎬', liveUrl: '#',
+  },
+  {
+    id: 'a2', title: 'Logo Animation — SaaS Brand',
+    tags: ['After Effects', 'Lottie', 'SVG Animation'],
+    desc: 'Smooth, professional logo animation exported as Lottie JSON for seamless web and app integration.',
+    fullDesc: 'A professional logo animation for a SaaS brand, designed to be used as a loading screen, splash screen, and website intro. The animation was created in Adobe After Effects and exported as a Lottie JSON file for lightweight, scalable web and mobile integration. Multiple variants were created for different use cases.',
+    features: ['After Effects animation', 'Lottie JSON export', 'SVG-based (scalable)', 'Loading screen variant', 'Splash screen variant', 'Multiple speed versions'],
+    color: '#ff61f6', gradient: 'linear-gradient(135deg, #2a0028, #4a0045)', emoji: '✨', liveUrl: '#',
+  },
+  {
+    id: 'a3', title: 'Explainer Animation — FinTech App',
+    tags: ['After Effects', '2D Animation', 'Explainer'],
+    desc: 'A 60-second 2D explainer animation explaining how a fintech app works — clean, engaging, and conversion-focused.',
+    fullDesc: 'A 60-second 2D explainer animation for a fintech mobile application. The animation walks users through the app\'s key features using character animation, icon animations, and smooth scene transitions. Designed to increase user understanding and boost app downloads from landing pages.',
+    features: ['60-second explainer video', '2D character animation', 'Icon & UI animations', 'Voiceover-ready timing', 'Multiple language versions', 'Web & social exports'],
+    color: '#ffd43b', gradient: 'linear-gradient(135deg, #2a1f00, #3d2e00)', emoji: '🎥', liveUrl: '#',
   },
 ];
 
@@ -113,6 +173,7 @@ export default function PortfolioPage() {
   const inView   = useInView(detailRef, { once: true, margin: '-60px' });
   const [hovered, setHovered] = useState(null);
   const [activeProject, setActiveProject] = useState(null);
+  const [activeCategory, setActiveCategory] = useState('development');
 
   return (
     <>
@@ -139,10 +200,28 @@ export default function PortfolioPage() {
           </motion.p>
         </div>
 
+        {/* ── CATEGORY TABS ── */}
+        <div className="pp-cat-tabs">
+          {CATEGORIES.map(c => (
+            <motion.button key={c.id}
+              className={`pp-cat-tab ${activeCategory === c.id ? 'pp-cat-active' : ''}`}
+              onClick={() => { setActiveCategory(c.id); setActiveProject(null); }}
+              whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}
+            >
+              {c.icon} {c.label}
+            </motion.button>
+          ))}
+        </div>
+
         {/* ── PROJECT DETAIL ── */}
-        <div className="pp-content" ref={detailRef}>
+        <AnimatePresence mode="wait">
+        <motion.div key={activeCategory} className="pp-content" ref={detailRef}
+          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.35 }}
+        >
 
           {/* project hero card */}
+          {activeCategory === 'development' && (<>
           <motion.div className="pp-project-hero"
             initial={{ opacity: 0, y: 40 }} animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.7 }}
@@ -271,7 +350,72 @@ export default function PortfolioPage() {
             </div>
           </motion.div>
 
-        </div>
+          </>) /* end development */}
+
+          {/* ── DESIGN PROJECTS ── */}
+          {activeCategory === 'design' && (
+            <div className="pp-other-grid">
+              {designProjects.map((p, i) => (
+                <motion.div key={p.id} className="pp-more-card"
+                  style={{ '--mc': p.color }}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.1 }}
+                  whileHover={{ y: -6 }}
+                  onClick={() => setActiveProject(p)}
+                >
+                  <div className="pp-more-visual" style={{ background: p.gradient }}>
+                    <span className="pp-more-emoji">{p.emoji}</span>
+                  </div>
+                  <div className="pp-more-body">
+                    <div className="pp-more-cat" style={{ color: p.color }}>Graphic Design</div>
+                    <h4 className="pp-more-title">{p.title}</h4>
+                    <p className="pp-more-desc">{p.desc}</p>
+                    <div className="pp-more-tags">
+                      {p.tags.map(t => <span key={t} className="pp-tag">{t}</span>)}
+                    </div>
+                    <button className="pp-more-link" style={{ color: p.color, background: 'none', border: 'none', cursor: 'pointer', padding: 0, fontFamily: 'inherit' }}>
+                      <Eye size={13} /> View Details
+                    </button>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          )}
+
+          {/* ── ANIMATION PROJECTS ── */}
+          {activeCategory === 'animation' && (
+            <div className="pp-other-grid">
+              {animationProjects.map((p, i) => (
+                <motion.div key={p.id} className="pp-more-card"
+                  style={{ '--mc': p.color }}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.1 }}
+                  whileHover={{ y: -6 }}
+                  onClick={() => setActiveProject(p)}
+                >
+                  <div className="pp-more-visual" style={{ background: p.gradient }}>
+                    <span className="pp-more-emoji">{p.emoji}</span>
+                  </div>
+                  <div className="pp-more-body">
+                    <div className="pp-more-cat" style={{ color: p.color }}>Animation</div>
+                    <h4 className="pp-more-title">{p.title}</h4>
+                    <p className="pp-more-desc">{p.desc}</p>
+                    <div className="pp-more-tags">
+                      {p.tags.map(t => <span key={t} className="pp-tag">{t}</span>)}
+                    </div>
+                    <button className="pp-more-link" style={{ color: p.color, background: 'none', border: 'none', cursor: 'pointer', padding: 0, fontFamily: 'inherit' }}>
+                      <Eye size={13} /> View Details
+                    </button>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          )}
+
+        </motion.div>
+        </AnimatePresence>
 
         {/* ── CTA ── */}
         <motion.div className="pp-cta"

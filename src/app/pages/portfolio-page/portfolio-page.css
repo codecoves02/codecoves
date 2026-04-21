@@ -398,3 +398,33 @@
   margin-bottom: 20px;
 }
 .pp-modal-disclaimer strong { color: #ffc107; }
+
+/* ── CATEGORY TABS ── */
+.pp-cat-tabs {
+  position: relative; z-index: 2;
+  display: flex; justify-content: center; gap: 12px;
+  padding: 40px 6% 0; flex-wrap: wrap;
+}
+.pp-cat-tab {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 50px; padding: 12px 24px;
+  font-size: 14px; font-weight: 600; color: #888;
+  cursor: pointer; transition: all 0.25s; font-family: inherit;
+}
+.pp-cat-tab:hover { border-color: rgba(177,76,255,0.4); color: #e0aaff; }
+.pp-cat-active {
+  background: linear-gradient(135deg, rgba(177,76,255,0.2), rgba(106,0,255,0.2)) !important;
+  border-color: #b14cff !important; color: #e0aaff !important;
+  box-shadow: 0 0 20px rgba(177,76,255,0.2);
+}
+
+/* ── OTHER CATEGORY GRID (design/animation) ── */
+.pp-other-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+@media (max-width: 860px) { .pp-other-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 540px)  { .pp-other-grid { grid-template-columns: 1fr; } }
