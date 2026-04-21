@@ -12,6 +12,25 @@ export default function OneSignalInit() {
         appId: process.env.NEXT_PUBLIC_ONESIGNAL_APP_ID,
         notifyButton: { enable: true },
         allowLocalhostAsSecureOrigin: true,
+        promptOptions: {
+          slidedown: {
+            prompts: [
+              {
+                type: 'push',
+                autoPrompt: true,
+                text: {
+                  actionMessage: 'Stay updated with the latest news and offers from CodeCoves!',
+                  acceptButton: 'Allow',
+                  cancelButton: 'No Thanks',
+                },
+                delay: {
+                  pageViews: 1,
+                  timeDelay: 3,
+                },
+              },
+            ],
+          },
+        },
       });
     });
 
