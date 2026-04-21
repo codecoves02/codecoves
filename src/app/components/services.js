@@ -10,16 +10,20 @@ import {
   Brain,
   Cloud,
   Headphones,
+  Brush,
+  Sparkles,
   ArrowRight
 } from 'lucide-react';
 
 const services = [
-  { title: 'Web Development', desc: 'Modern & scalable websites.', icon: <Code /> },
-  { title: 'Mobile Apps', desc: 'iOS & Android applications.', icon: <Smartphone /> },
-  { title: 'UI / UX Design', desc: 'Clean and user-focused designs.', icon: <Palette /> },
-  { title: 'AI Solutions', desc: 'AI-powered smart systems.', icon: <Brain /> },
-  { title: 'Cloud & DevOps', desc: 'Secure cloud infrastructure.', icon: <Cloud /> },
-  { title: 'Support & Maintenance', desc: 'Reliable long-term support.', icon: <Headphones /> },
+  { title: 'Web Development',          desc: 'Modern & scalable websites.',          icon: <Code /> },
+  { title: 'Mobile Apps',              desc: 'iOS & Android applications.',           icon: <Smartphone /> },
+  { title: 'UI / UX Design',           desc: 'Clean and user-focused designs.',       icon: <Palette /> },
+  { title: 'AI Solutions',             desc: 'AI-powered smart systems.',             icon: <Brain /> },
+  { title: 'Cloud & DevOps',           desc: 'Secure cloud infrastructure.',          icon: <Cloud /> },
+  { title: 'Graphic Design',           desc: 'Logos, branding & social media.',       icon: <Brush /> },
+  { title: 'Motion & Animation',       desc: 'Engaging animations & motion graphics.',icon: <Sparkles /> },
+  { title: 'Support & Maintenance',    desc: 'Reliable long-term support.',           icon: <Headphones /> },
 ];
 
 export default function Services() {

@@ -7,7 +7,7 @@ import ReusableNavbar from '../../components/reusable-navbar';
 import Footer from '../../components/footer';
 import {
   Code, Smartphone, Palette, Brain, Cloud, Headphones,
-  ArrowLeft, CheckCircle, ArrowRight
+  ArrowLeft, CheckCircle, ArrowRight, Brush, Sparkles
 } from 'lucide-react';
 import './services-page.css';
 
@@ -152,6 +152,38 @@ const services = [
     ],
     process: ['Onboarding', 'Audit', 'SLA Setup', 'Ongoing Support', 'Reviews'],
   },
+  {
+    icon: <Brush size={36} />,
+    title: 'Graphic Design & Branding',
+    tagline: 'Visuals that make your brand unforgettable',
+    color: '#f24e1e',
+    desc: 'From logo design to complete brand identity, social media graphics, and marketing materials — we craft visuals that communicate your brand\'s personality and leave a lasting impression on your audience.',
+    features: [
+      'Logo design & brand identity',
+      'Social media post & story design',
+      'Business card & stationery design',
+      'Marketing banners & flyers',
+      'Brand guidelines document',
+      'Canva, Figma & Photoshop deliverables',
+    ],
+    process: ['Brief & Research', 'Concept Design', 'Revisions', 'Final Delivery', 'Brand Guide'],
+  },
+  {
+    icon: <Sparkles size={36} />,
+    title: 'Motion Graphics & Animation',
+    tagline: 'Bring your brand to life with motion',
+    color: '#9999ff',
+    desc: 'We create captivating animations and motion graphics that engage your audience — from logo animations and explainer videos to social media reels and product showcases. Every frame is crafted to tell your story.',
+    features: [
+      'Logo & intro animations',
+      '2D explainer videos',
+      'Social media reels & stories',
+      'Product showcase animations',
+      'Lottie / web animations',
+      'After Effects & motion design',
+    ],
+    process: ['Storyboard', 'Design Assets', 'Animation', 'Sound Sync', 'Export & Delivery'],
+  },
 ];
 
 function ServiceCard({ service, index }) {
@@ -266,7 +298,7 @@ export default function ServicesPage() {
             initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.3 }}
           >
             {[
-              { val: '6+', label: 'Core Services' },
+              { val: '8+', label: 'Core Services' },
               { val: '100%', label: 'Client Focused' },
               { val: '24/7', label: 'Support' },
             ].map((s, i) => (
