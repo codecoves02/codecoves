@@ -36,10 +36,10 @@ const links = {
 };
 
 const socials = [
-  { icon: <FaGithub size={18} />,   href: 'https://github.com/codecoves',                label: 'GitHub'   },
-  { icon: <FaLinkedin size={18} />, href: 'https://linkedin.com/company/codecoves',       label: 'LinkedIn' },
-  { icon: <FaTwitter size={18} />,  href: 'https://twitter.com/codecoves',                label: 'Twitter'  },
-  { icon: <FaInstagram size={18} />,href: 'https://instagram.com/codecoves',              label: 'Instagram'},
+  { icon: <FaGithub size={18} />,   href: '#',                label: 'GitHub'   },
+  { icon: <FaLinkedin size={18} />, href: '#',       label: 'LinkedIn' },
+  { icon: <FaTwitter size={18} />,  href: '#',                label: 'Twitter'  },
+  { icon: <FaInstagram size={18} />,href: '#',              label: 'Instagram'},
 ];
 
 const contact = [
