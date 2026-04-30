@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { ArrowLeft, ExternalLink, ArrowRight, Star, Eye, ShoppingBag, Globe, Smartphone, Palette, Package, Heart, Tag, Truck, Code2, Brush, Sparkles } from 'lucide-react';
 import ReusableNavbar from '../../components/reusable-navbar';
 import Footer from '../../components/footer';
@@ -86,6 +87,7 @@ const animationProjects = [
     fullDesc: 'A professional logo animation for a SaaS brand, designed to be used as a loading screen, splash screen, and website intro. The animation was created in Adobe After Effects and exported as a Lottie JSON file for lightweight, scalable web and mobile integration. Multiple variants were created for different use cases.',
     features: ['After Effects animation', 'Lottie JSON export', 'SVG-based (scalable)', 'Loading screen variant', 'Splash screen variant', 'Multiple speed versions'],
     color: '#ff61f6', gradient: 'linear-gradient(135deg, #2a0028, #4a0045)', emoji: '✨', liveUrl: '#',
+    detailPage: '/pages/portfolio-page/logo-animation',
   },
   {
     id: 'a3', title: 'Explainer Animation — FinTech App',
@@ -168,6 +170,7 @@ const project = {
 };
 
 export default function PortfolioPage() {
+  const router  = useRouter();
   const heroRef  = useRef(null);
   const detailRef = useRef(null);
   const inView   = useInView(detailRef, { once: true, margin: '-60px' });
@@ -393,7 +396,7 @@ export default function PortfolioPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.1 }}
                   whileHover={{ y: -6 }}
-                  onClick={() => setActiveProject(p)}
+                  onClick={() => p.detailPage ? router.push(p.detailPage) : setActiveProject(p)}
                 >
                   <div className="pp-more-visual" style={{ background: p.gradient }}>
                     <span className="pp-more-emoji">{p.emoji}</span>

@@ -141,10 +141,10 @@ const Navbar = () => {
 
                 <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent" />
 
-                <div className="relative z-10 ml-6 sm:ml-12 lg:ml-20 max-w-4xl text-left pr-6 sm:pr-12">
+                <div className="relative z-10 ml-6 sm:ml-12 lg:ml-20 max-w-xl sm:max-w-2xl lg:max-w-4xl text-left pr-6 sm:pr-12 w-[calc(100%-48px)] sm:w-auto">
 
                     {/* TEXT WRAPPER — FIXED HEIGHT */}
-                    <div className="min-h-[260px] sm:min-h-[320px] lg:min-h-[420px]">
+                    <div className="min-h-[260px] sm:min-h-[320px] lg:min-h-[420px] mt-10">
 
                         {/* Main Heading */}
                         <AnimatePresence mode="wait">
@@ -169,7 +169,7 @@ const Navbar = () => {
                         {/* Subheading */}
                         <AnimatePresence mode="wait">
                             {showText && (
-                                <motion.h2
+                                <motion.h3
                                     key={`sub-${currentIndex}`}
                                     variants={container}
                                     initial="initial"
@@ -182,7 +182,7 @@ const Navbar = () => {
                                             {char === " " ? "\u00A0" : char}
                                         </motion.span>
                                     ))}
-                                </motion.h2>
+                                </motion.h3>
                             )}
                         </AnimatePresence>
 
@@ -195,7 +195,7 @@ const Navbar = () => {
                                     initial="initial"
                                     animate="animate"
                                     exit="exit"
-                                    className="text-sm sm:text-lg lg:text-2xl text-gray-200 mb-8 max-w-2xl leading-relaxed"
+                                    className="text-sm sm:text-lg lg:text-2xl text-gray-200 mb-8 max-w-xs sm:max-w-xl lg:max-w-2xl leading-relaxed"
                                 >
                                     {heroData[currentIndex].para.split("").map((char, i) => (
                                         <motion.span key={`para-char-${i}`} variants={letterVariants} className="inline-block">
