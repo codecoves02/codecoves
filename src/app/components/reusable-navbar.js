@@ -86,7 +86,7 @@ export default function ReusableNavbar() {
 
         {/* CTA */}
         <Link href="/pages/contact-page" className="hidden lg:block bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 shadow-lg hover:shadow-purple-500/25">
-          Get Started with aqdas
+          Get Started
         </Link>
 
         {/* Mobile toggle */}
